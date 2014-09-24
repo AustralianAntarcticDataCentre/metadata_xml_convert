@@ -1,0 +1,22 @@
+import os
+
+
+BASE_PATH = os.getcwd()
+
+# Where the DIF XML files can be found.
+UPLOAD_PATH = os.path.join(BASE_PATH, 'import')
+
+# Base path of where the converted XML should go.
+EXPORT_PATH = os.path.join(BASE_PATH, 'export')
+
+# Base path of where the XML conversion files can be found.
+XSL_PATH = os.path.join(BASE_PATH, 'xsl')
+
+# XSL types and where the output files should go.
+# Both are relative to the base paths above.
+CONVERSIONS = (
+	('DIF-ISO-3.3.xsl', 'iso'),
+	('DIF-ISO-ANDS-3.3.xsl', 'iso-ands'),
+	('DIF-ISO-ANZLIC-3.3.xsl', 'iso-anzlic'),
+	('DIF-ISO-MCP-3.3.xsl', 'iso-mcp'),
+)
