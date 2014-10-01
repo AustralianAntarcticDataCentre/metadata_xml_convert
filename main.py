@@ -1,10 +1,13 @@
 import argparse
+import logging
 import os
-from shutil import copyfile
 from subprocess import call
 from uuid import uuid4
 
 from settings import CONVERSIONS, EXPORT_PATH, UPLOAD_PATH, XSL_PATH
+
+
+logger = logging.getLogger(__name__)
 
 
 def file_is_newer(newer_file, older_file):
@@ -110,6 +113,33 @@ def add_random_uuid_to_file(file_name):
 			h.write(content)
 
 
+def append_folder_to_file_name(file_path):
+	"""
+	Add the parent folder name between the file name and extension.
+
+	So "/grandparent/parent/name.ext"
+	Becomes "/grandparent/parent/name-parent.ext".
+
+	This allows the file names to be unique if the parent folders are
+	merged into one folder.
+	"""
+
+	# ["/grandparent/parent", "name.ext"]
+	folder_path, file_name = os.path.split(file_path)
+
+	# ["/grandparent", "parent"]
+	grandparent_path, parent_name = os.path.split(folder_path)
+
+	# ["name", ".ext"]
+	file_base_name, file_ext = os.path.splitext(file_name)
+
+	# ["name", "-", "parent", ".ext"]
+	new_name = ''.join([file_base_name, '-', parent_name, file_ext])
+
+	# ["/grandparent/parent", "name-parent.ext"]
+	return os.path.join(folder_path, new_name)
+
+
 def get_arg_parser():
 	parser = argparse.ArgumentParser(description='Manage application')
 
@@ -162,28 +192,48 @@ def get_arg_parser():
 
 
 if __name__ == '__main__':
+	logging.basicConfig(level=logging.DEBUG)
+
 	parser = get_arg_parser()
 	args = parser.parse_args()
 
 	for paths in find_updated_files(args.force):
 		input_file = paths[0]
-		error_file = paths[3]
+		logger.debug('Input: %s', input_file)
 
 		if args.print_only:
 			print(input_file)
 
 		else:
+			output_file = paths[2]
+			error_file = paths[3]
+
 			call_args = get_msxsl_call(*paths[:3])
 			#call_args = get_saxon_call(*paths[:3])
 
-			print(' '.join(call_args))
+			logger.debug(' '.join(call_args))
 
 			# Call and store the exit status of the process.
 			result = call(call_args)
 
-			# Insert random UUIDs into converted files.
-			add_random_uuid_to_file(input_file)
-
 			# Move file to the error folder if an error code was returned.
 			if result != 0 and error_file is not None:
-				copyfile(input_file, error_file)
+				os.rename(input_file, error_file)
+				logger.error('Conversion failed. moving file to %s', error_file)
+
+			else:
+				# Insert random UUIDs into converted files.
+				add_random_uuid_to_file(output_file)
+
+				# Insert the parent folder name into the file name.
+				new_output_file = append_folder_to_file_name(output_file)
+				logger.info('Created: %s', new_output_file)
+
+				# Delete the converted file if it already exists.
+				if os.path.exists(new_output_file):
+					os.remove(new_output_file)
+
+				os.rename(output_file, new_output_file)
+
+				# Ensure last modified time is older than the output file.
+				os.utime(input_file, None)
