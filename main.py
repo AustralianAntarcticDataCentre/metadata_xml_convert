@@ -51,6 +51,8 @@ def check_paths(*paths):
 def find_updated_files(force_conversion=False):
 	"""
 	Generate names of XML files that need to be converted.
+
+	The "allowed" function still applies if `force_conversion` is True.
 	"""
 
 	xsl_path = lambda xsl: os.path.join(XSL_PATH, xsl)
@@ -58,8 +60,8 @@ def find_updated_files(force_conversion=False):
 
 	# Only include conversions where the XSL and output folder exist.
 	conversions = [
-		(xsl_path(x), out_path(o))
-		for x, o in CONVERSIONS
+		(xsl_path(x), out_path(o), f)
+		for x, o, f in CONVERSIONS
 		if check_paths(xsl_path(x), out_path(o))
 	]
 
@@ -73,7 +75,13 @@ def find_updated_files(force_conversion=False):
 		input_file = os.path.join(UPLOAD_PATH, file_name)
 
 		# Loop each of the conversion types.
-		for xsl_path, output_folder in conversions:
+		for xsl_path, output_folder, allowed in conversions:
+			# Check for a function to check if conversion is allowed.
+			if allowed is not None:
+				# If conversion not allowed, skip to next item.
+				if not allowed(input_file):
+					continue
+
 			# File path that will be output by the conversion.
 			output_file = os.path.join(output_folder, file_name)
 
