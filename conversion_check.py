@@ -7,7 +7,12 @@ def check_iso_mcp(input_file):
 	"""
 
 	allowed = False
-	oceans_tag = '<ISO_Topic_Category>OCEANS</ISO_Topic_Category>'
+
+	# Cannot use the following check:
+	# oceans_tag = '<ISO_Topic_Category>OCEANS</ISO_Topic_Category>'
+	# This is because some of these tags include a "uuid" attribute, so they
+	# will not be marked OK for conversion.
+	oceans_tag = '>OCEANS</ISO_Topic_Category>'
 
 	with open(input_file) as r:
 		content = r.read()
