@@ -110,7 +110,7 @@ def add_random_uuid_to_file(file_name):
 		new_content = new_content + parts[-1]
 
 		with open(file_name, 'w') as h:
-			h.write(content)
+			h.write(new_content)
 
 
 def append_folder_to_file_name(file_path):
