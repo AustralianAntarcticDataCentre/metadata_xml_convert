@@ -4,6 +4,7 @@ import os
 from subprocess import call
 from uuid import uuid4
 
+from conversion_calls import get_msxsl_call
 from settings import CONVERSIONS, EXPORT_PATH, UPLOAD_PATH, XSL_PATH
 
 
@@ -19,21 +20,6 @@ def file_is_newer(newer_file, older_file):
 
 	return os.path.getmtime(newer_file) > os.path.getmtime(newer_file)
 	#return os.path.getctime(newer_file) > os.path.getctime(newer_file)
-
-
-def get_msxsl_call(input_file, transform_file, output_file):
-	return ('msxsl.exe', input_file, transform_file, '-o', output_file)
-
-
-def get_saxon_call(input_file, transform_file, output_file):
-	return (
-		'java',
-		'-jar',
-		'saxon9.jar',
-		'-s:' + input_file,
-		'-xsl:' + transform_file,
-		'-o:' + output_file
-	)
 
 
 def check_paths(*paths):
