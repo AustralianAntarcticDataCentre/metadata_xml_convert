@@ -83,6 +83,7 @@ def main():
 	parser = get_arg_parser()
 	args = parser.parse_args()
 
+	# Loop over each of the files to be converted.
 	for paths in find_updated_files(args.force):
 		input_file = paths[0]
 		logger.debug('Input: %s', input_file)
@@ -97,9 +98,10 @@ def main():
 			call_args = get_msxsl_call(*paths[:3])
 			#call_args = get_saxon_call(*paths[:3])
 
+			# Log the XSL command to be run.
 			logger.debug(' '.join(call_args))
 
-			# Call and store the exit status of the process.
+			# Call and store the exit status of the XSL command.
 			result = call(call_args)
 
 			# Move file to the error folder if an error code was returned.
