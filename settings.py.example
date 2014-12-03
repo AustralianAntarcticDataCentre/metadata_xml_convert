@@ -1,6 +1,9 @@
 import os
 
 
+# Use `file-parent.ext` for converted files.
+ADD_FOLDER_TO_FILE_NAME = True
+
 BASE_PATH = os.getcwd()
 
 # Where the DIF XML files can be found.
