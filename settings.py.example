@@ -1,25 +1,44 @@
 import os
 
+from conversion_check import check_ands_rif_cs, check_iso_mcp
+
+
+BASE_PATH = os.getcwd()
+#BASE_PATH = os.path.normpath(BASE_PATH)
+
 
 # Use `file-parent.ext` for converted files.
 ADD_FOLDER_TO_FILE_NAME = True
 
-BASE_PATH = os.getcwd()
+ANDS_XML_START = """
+<registryObjects xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://ands.org.au/standards/rif-cs/registryObjects"
+	xsi:schemaLocation="http://ands.org.au/standards/rif-cs/registryObjects http://services.ands.org.au/documentation/rifcs/schema/registryObjects.xsd">
+"""
 
-# Where the DIF XML files can be found.
-UPLOAD_PATH = os.path.join(BASE_PATH, 'import')
-
-# Base path of where the converted XML should go.
-EXPORT_PATH = os.path.join(BASE_PATH, 'export')
-
-# Base path of where the XML conversion files can be found.
-XSL_PATH = os.path.join(BASE_PATH, 'xsl')
+ANDS_XML_STOP = '</registryObjects>'
 
 # XSL types and where the output files should go.
 # Both are relative to the base paths above.
 CONVERSIONS = (
-	('DIF-ISO-3.3.xsl', 'iso'),
-	('DIF-ISO-ANDS-3.3.xsl', 'iso-ands'),
-	('DIF-ISO-ANZLIC-3.3.xsl', 'iso-anzlic'),
-	('DIF-ISO-MCP-3.3.xsl', 'iso-mcp'),
+	('ANDS_RIF-CS.xsl', 'ands_rif-cs', check_ands_rif_cs),
+	('DIF-ISO-3.3.xsl', 'iso', None),
+	('DIF-ISO-ANDS-3.3.xsl', 'iso-ands', None),
+	('DIF-ISO-ANZLIC-3.3.xsl', 'iso-anzlic', None),
+	('DIF-ISO-MCP-3.3.xsl', 'iso-mcp', check_iso_mcp),
 )
+
+
+ANDS_XML_FILE_NAME = os.path.join(BASE_PATH, 'AAD_RegistryObjects.xml')
+
+ANDS_XML_FOLDER_PATH = os.path.join(EXPORT_PATH, 'ands_rif-cs')
+
+# Base path of where the converted XML should go.
+EXPORT_PATH = os.path.join(BASE_PATH, 'export')
+
+# Where the DIF XML files can be found.
+UPLOAD_PATH = os.path.join(BASE_PATH, 'import')
+
+# Base path of where the XML conversion files can be found.
+XSL_PATH = os.path.join(BASE_PATH, 'xsl')
