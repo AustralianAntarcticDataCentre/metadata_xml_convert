@@ -20,3 +20,9 @@ def check_iso_mcp(input_file):
 			allowed = True
 
 	return allowed
+
+
+def check_ands_rif_cs(file_path):
+	folder_path, file_name = os.path.split(file_path)
+	base_name, ext_name = os.path.splitext(file_name)
+	return not base_name.endswith('AAD_RIFCS_ISO')
