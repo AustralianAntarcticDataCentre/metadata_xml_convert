@@ -5,33 +5,11 @@ from subprocess import call
 from uuid import uuid4
 
 from conversion_calls import get_msxsl_call
+from file_checks import check_paths, file_is_newer
 from settings import CONVERSIONS, EXPORT_PATH, UPLOAD_PATH, XSL_PATH
 
 
 logger = logging.getLogger(__name__)
-
-
-def file_is_newer(newer_file, older_file):
-	"""
-	Return True if the first file is newer than the second.
-
-	Make sure each argument is the full path to the file.
-	"""
-
-	return os.path.getmtime(newer_file) > os.path.getmtime(newer_file)
-	#return os.path.getctime(newer_file) > os.path.getctime(newer_file)
-
-
-def check_paths(*paths):
-	"""
-	Return True if all paths exist, False if any are invalid.
-	"""
-
-	for f in paths:
-		if not os.path.exists(f):
-			return False
-
-	return True
 
 
 def find_updated_files(force_conversion=False):
