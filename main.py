@@ -79,9 +79,7 @@ def get_arg_parser():
 	return parser
 
 
-if __name__ == '__main__':
-	logging.basicConfig(level=logging.DEBUG)
-
+def main():
 	parser = get_arg_parser()
 	args = parser.parse_args()
 
@@ -125,3 +123,9 @@ if __name__ == '__main__':
 
 				# Ensure last modified time is older than the output file.
 				os.utime(input_file, None)
+
+
+if '__main__' == __name__:
+	logging.basicConfig(level=logging.DEBUG)
+
+	main()
