@@ -2,9 +2,7 @@ import logging
 import os
 
 from file_checks import get_files_in_folder, get_input_path
-from settings import (
-	ADD_FOLDER_TO_FILE_NAME, CONVERSIONS, EXPORT_PATH, UPLOAD_PATH
-)
+from settings import CONVERSIONS, EXPORT_PATH
 
 
 logger = logging.getLogger(__name__)
