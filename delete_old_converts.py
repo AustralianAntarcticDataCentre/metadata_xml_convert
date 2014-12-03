@@ -1,51 +1,13 @@
 import logging
 import os
 
+from file_checks import get_files_in_folder, get_input_path
 from settings import (
 	ADD_FOLDER_TO_FILE_NAME, CONVERSIONS, EXPORT_PATH, UPLOAD_PATH
 )
 
 
 logger = logging.getLogger(__name__)
-
-
-def get_files_in_folder(folder, ext=''):
-	logger.debug('Checking for %s in %s', ext, folder)
-
-	# Loop the contents of the folder.
-	for file_name in os.listdir(folder):
-		# Skip files with the wrong extension.
-		if not file_name.endswith(ext):
-			continue
-
-		yield os.path.join(folder, file_name)
-
-
-def get_input_path(output_path):
-	"""
-	Get the original file name from a converted file name.
-	"""
-
-	# ["/grandparent/parent", "file.ext"]
-	folder_path, file_name = os.path.split(output_path)
-
-	# ["/grandparent", "parent"]
-	grandparent_path, parent_name = os.path.split(folder_path)
-
-	# Check if file name is actually `file-parent.ext`.
-	if ADD_FOLDER_TO_FILE_NAME:
-		# ["name-parent", ".ext"]
-		file_base_name, file_ext = os.path.splitext(file_name)
-
-		dash_parent = '-{}'.format(parent_name)
-
-		# Make sure the file name includes the parent.
-		if file_base_name.endswith(dash_parent):
-			file_base_name = file_base_name[:-len(dash_parent)]
-
-		file_name = '{}{}'.format(file_base_name, file_ext)
-
-	return os.path.join(UPLOAD_PATH, file_name)
 
 
 def main():
