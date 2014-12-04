@@ -13,6 +13,12 @@ logger = logging.getLogger(__name__)
 
 
 def add_random_uuid_to_file(file_name):
+	"""
+	Insert UUIDs into the given file.
+
+	Replace each instance of `INSERT_RANDOM_UUID_HERE` with a UUID.
+	"""
+
 	with open(file_name) as h:
 		content = h.read()
 
@@ -98,6 +104,7 @@ def get_conversions(args):
 		if os.path.exists(args.xsl):
 			return [args.xsl,]
 
+	# Default to all conversions.
 	return CONVERSIONS
 
 
@@ -109,19 +116,20 @@ def main(args):
 		input_file = paths[0]
 		logger.debug('Input: %s', input_file)
 
+		output_file = paths[2]
+		error_file = paths[3]
+
+		call_args = get_msxsl_call(*paths[:3])
+		#call_args = get_saxon_call(*paths[:3])
+
+		# Log the XSL command to be run.
+		call_args_str = ' '.join(call_args)
+		logger.debug(call_args_str)
+
 		if args.print_only:
-			print(input_file)
+			print(call_args_str)
 
 		else:
-			output_file = paths[2]
-			error_file = paths[3]
-
-			call_args = get_msxsl_call(*paths[:3])
-			#call_args = get_saxon_call(*paths[:3])
-
-			# Log the XSL command to be run.
-			logger.debug(' '.join(call_args))
-
 			# Call and store the exit status of the XSL command.
 			result = call(call_args)
 
