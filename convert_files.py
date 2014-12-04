@@ -17,6 +17,13 @@ def add_random_uuid_to_file(file_name):
 	Insert UUIDs into the given file.
 
 	Replace each instance of `INSERT_RANDOM_UUID_HERE` with a UUID.
+
+
+	Parameters
+	----------
+
+	file_name : str
+		Path to file to be modified.
 	"""
 
 	with open(file_name) as h:
