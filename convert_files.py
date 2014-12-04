@@ -114,8 +114,6 @@ def main(args):
 	# Loop over each of the files to be converted.
 	for paths in find_updated_files(args.force, conversions):
 		input_file = paths[0]
-		logger.debug('Input: %s', input_file)
-
 		output_file = paths[2]
 		error_file = paths[3]
 
@@ -144,7 +142,7 @@ def main(args):
 
 				# Insert the parent folder name into the file name.
 				new_output_file = append_folder_to_file_name(output_file)
-				logger.info('Created: %s', new_output_file)
+				logger.info('Created %s', new_output_file)
 
 				# Delete the converted file if it already exists.
 				if os.path.exists(new_output_file):
