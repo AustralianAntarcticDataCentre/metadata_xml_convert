@@ -126,9 +126,9 @@ def main(args):
 
 		call_args = get_msxsl_call(*paths[:3])
 		#call_args = get_saxon_call(*paths[:3])
+		call_args_str = ' '.join(call_args)
 
 		# Log the XSL command to be run.
-		call_args_str = ' '.join(call_args)
 		logger.debug(call_args_str)
 
 		if args.print_only:
