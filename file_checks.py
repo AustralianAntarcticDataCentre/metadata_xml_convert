@@ -18,6 +18,20 @@ def append_folder_to_file_name(file_path):
 
 	This allows the file names to be unique if the parent folders are
 	merged into one folder.
+
+
+	Parameters
+	----------
+
+	file_path : str
+		Path to file to be modified.
+
+
+	Returns
+	-------
+
+	str
+		Return the modified file path.
 	"""
 
 	# ["/grandparent/parent", "name.ext"]
@@ -38,7 +52,14 @@ def append_folder_to_file_name(file_path):
 
 def check_paths(*paths):
 	"""
-	Return True if all paths exist, False if any are invalid.
+	Check if all file paths are valid.
+
+
+	Returns
+	-------
+
+	bool
+		Return True if all paths exist, False if any are invalid.
 	"""
 
 	for f in paths:
@@ -53,6 +74,13 @@ def file_is_newer(newer_file, older_file):
 	Return True if the first file is newer than the second.
 
 	Make sure each argument is the full path to the file.
+
+
+	Returns
+	-------
+
+	bool
+		True if the first file is newer than the second.
 	"""
 
 	return os.path.getmtime(newer_file) > os.path.getmtime(newer_file)
@@ -69,10 +97,10 @@ def find_updated_files(force_conversion=False, conversions=None):
 	Parameters
 	----------
 
-	force_conversion : bool
+	force_conversion : bool, optional
 		Perform conversion even if the converted file is newer.
 
-	conversions : list
+	conversions : list, optional
 		List of conversions to perform.
 		Each is a tuple containing the XSL name, output folder and a function to
 		check if conversion is allowed.
@@ -141,8 +169,8 @@ def get_files_in_folder(folder, ext=''):
 	folder : str
 		Path to the folder to generate file names from.
 
-	ext : str
-		Optional extension filter.
+	ext : str, optional
+		File extension filter.
 	"""
 
 	logger.debug('Checking for %s in %s', ext, folder)
@@ -159,6 +187,20 @@ def get_files_in_folder(folder, ext=''):
 def get_input_path(output_path):
 	"""
 	Get the original file name from a converted file name.
+
+
+	Parameters
+	----------
+
+	file_path : str
+		Path to file to be modified.
+
+
+	Returns
+	-------
+
+	str
+		Return the modified file path.
 	"""
 
 	# ["/grandparent/parent", "file.ext"]
