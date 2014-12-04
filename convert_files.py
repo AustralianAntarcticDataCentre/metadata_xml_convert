@@ -79,10 +79,7 @@ def get_arg_parser():
 	return parser
 
 
-def main():
-	parser = get_arg_parser()
-	args = parser.parse_args()
-
+def main(args):
 	# Loop over each of the files to be converted.
 	for paths in find_updated_files(args.force):
 		input_file = paths[0]
@@ -130,4 +127,7 @@ def main():
 if '__main__' == __name__:
 	logging.basicConfig(level=logging.DEBUG)
 
-	main()
+	parser = get_arg_parser()
+	args = parser.parse_args()
+
+	main(args)
