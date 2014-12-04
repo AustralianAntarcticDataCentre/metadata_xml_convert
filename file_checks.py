@@ -131,6 +131,20 @@ def find_updated_files(force_conversion=False, conversions=None):
 
 
 def get_files_in_folder(folder, ext=''):
+	"""
+	Generate names of files in a folder.
+
+
+	Parameters
+	----------
+
+	folder : str
+		Path to the folder to generate file names from.
+
+	ext : str
+		Optional extension filter.
+	"""
+
 	logger.debug('Checking for %s in %s', ext, folder)
 
 	# Loop the contents of the folder.
