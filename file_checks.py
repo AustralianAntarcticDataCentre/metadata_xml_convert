@@ -59,20 +59,35 @@ def file_is_newer(newer_file, older_file):
 	#return os.path.getctime(newer_file) > os.path.getctime(newer_file)
 
 
-def find_updated_files(force_conversion=False):
+def find_updated_files(force_conversion=False, conversions=None):
 	"""
 	Generate names of XML files that need to be converted.
 
-	The "allowed" function still applies if `force_conversion` is True.
+	The "allowed" function still applies even if `force_conversion` is True.
+
+
+	Parameters
+	----------
+
+	force_conversion : bool
+		Perform conversion even if the converted file is newer.
+
+	conversions : list
+		List of conversions to perform.
+		Each is a tuple containing the XSL name, output folder and a function to
+		check if conversion is allowed.
 	"""
 
 	xsl_path = lambda xsl: os.path.join(XSL_PATH, xsl)
 	out_path = lambda folder: os.path.join(EXPORT_PATH, folder)
 
+	if conversions is None:
+		conversions = CONVERSIONS
+
 	# Only include conversions where the XSL and output folder exist.
-	conversions = [
+	full_conversion_details = [
 		(xsl_path(x), out_path(o), f)
-		for x, o, f in CONVERSIONS
+		for x, o, f in conversions
 		if check_paths(xsl_path(x), out_path(o))
 	]
 
@@ -86,7 +101,7 @@ def find_updated_files(force_conversion=False):
 		input_file = os.path.join(UPLOAD_PATH, file_name)
 
 		# Loop each of the conversion types.
-		for xsl_path, output_folder, allowed in conversions:
+		for xsl_path, output_folder, allowed in full_conversion_details:
 			# Check for a function to check if conversion is allowed.
 			if allowed is not None:
 				# If conversion not allowed, skip to next item.

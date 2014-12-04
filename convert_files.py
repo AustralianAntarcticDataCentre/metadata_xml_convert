@@ -6,6 +6,7 @@ from uuid import uuid4
 
 from conversion_calls import get_msxsl_call
 from file_checks import append_folder_to_file_name, find_updated_files
+from settings import CONVERSIONS
 
 
 logger = logging.getLogger(__name__)
@@ -67,21 +68,44 @@ def get_arg_parser():
 		help='Only print files to be transformed, do not transform them'
 	)
 
-	#parser.add_argument(
-		#'-x',
-		#'--xsl',
-		#dest='xsl',
-		#default='',
-		#type=str,
-		#help='Transformation XSL file'
-	#)
+	parser.add_argument(
+		'-x',
+		'--xsl',
+		dest='xsl',
+		default='',
+		type=str,
+		help='Transformation XSL file'
+	)
 
 	return parser
 
 
+def get_conversions(args):
+	"""
+	Get the list of conversions to be performed.
+
+	Defaults to doing all XSL conversions for all the files.
+	"""
+
+	# Check if an integer was given.
+	if args.xsl.isdigit():
+		i = int(args.xsl)
+		if 0 <= i and i < len(CONVERSIONS):
+			return [CONVERSIONS[i],]
+
+	# If a string is given, then it must be a valid file name.
+	elif args.xsl != '':
+		if os.path.exists(args.xsl):
+			return [args.xsl,]
+
+	return CONVERSIONS
+
+
 def main(args):
+	conversions = get_conversions(args)
+
 	# Loop over each of the files to be converted.
-	for paths in find_updated_files(args.force):
+	for paths in find_updated_files(args.force, conversions):
 		input_file = paths[0]
 		logger.debug('Input: %s', input_file)
 
