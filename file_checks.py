@@ -116,7 +116,11 @@ def find_updated_files(force_conversion=False, conversions=None):
 	full_conversion_details = get_full_conversion_details(conversions)
 
 	# Loop the contents of the input folder.
-	for file_name in get_files_in_folder(UPLOAD_PATH, '.xml'):
+	for file_name in os.listdir(UPLOAD_PATH):
+		# Skip files with the wrong extension.
+		if not file_name.endswith('.xml'):
+			continue
+
 		# Get the path to the current input file.
 		input_file = os.path.join(UPLOAD_PATH, file_name)
 
@@ -180,7 +184,7 @@ def get_files_in_folder(folder, ext=''):
 		if not file_name.endswith(ext):
 			continue
 
-		yield from os.path.join(folder, file_name)
+		yield os.path.join(folder, file_name)
 
 
 def get_full_conversion_details(conversions=None):
