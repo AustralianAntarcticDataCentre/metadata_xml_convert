@@ -104,6 +104,13 @@ def find_updated_files(force_conversion=False, conversions=None):
 		List of conversions to perform.
 		Each is a tuple containing the XSL name, output folder and a function to
 		check if conversion is allowed.
+
+
+	Yields
+	------
+
+	tuple of str
+		Yields a tuple of file paths required for the XSL conversion.
 	"""
 
 	full_conversion_details = get_full_conversion_details(conversions)
@@ -156,6 +163,13 @@ def get_files_in_folder(folder, ext=''):
 
 	ext : str, optional
 		File extension filter.
+
+
+	Yields
+	------
+
+	str
+		Yields the full path of files found.
 	"""
 
 	logger.debug('Checking for "%s" in %s', ext, folder)
