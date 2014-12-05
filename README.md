@@ -42,3 +42,7 @@ This script has been built to solve a specific task.
 
 The goal was not to create a tool that would be integrated with others,
 but hopefully this may still be possible in the future (if necessary).
+
+Docstrings follow the [NumPy documentation conventions][1].
+
+[1]: https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt
