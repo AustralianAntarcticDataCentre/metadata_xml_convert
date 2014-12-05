@@ -12,18 +12,29 @@ This script only uses Python 3.4 standard libraries.
 
 ## Usage
 
-### Print XSL
+### Print available XSL files
+
+These are located in the [xsl](./xsl/) folder by default.
 
 	python print_xsl.py
 
 Print each of the XSL transformations that can be performed.
 
 
-### Convert XML
+### Convert XML using XSL files
 
 	python convert_files.py
 
 Convert each of the XML files using all of the XSL files.
+
+
+#### Convert using a single XSL
+
+You can specify a single XSL to use with `-x 0`:
+
+	python convert_files.py -x 0
+
+The number is the 0-based index from `python print_xsl.py`.
 
 
 ### Delete old files
