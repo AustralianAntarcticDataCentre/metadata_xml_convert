@@ -119,6 +119,8 @@ def main(args):
 		# Get the XSL transform command to be run.
 		call_args = get_msxsl_call(*paths[:3])
 		#call_args = get_saxon_call(*paths[:3])
+
+		# Store the call as a string for a debug message and printing.
 		call_args_str = ' '.join(call_args)
 
 		# Log the XSL command to be run.
