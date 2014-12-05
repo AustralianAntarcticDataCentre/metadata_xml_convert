@@ -93,7 +93,7 @@ def get_arg_parser():
 	return parser
 
 
-def main(args):
+def convert_files(args):
 	conversions = get_conversions(args.xsl)
 
 	# Loop over each of the files to be converted.
@@ -109,9 +109,9 @@ def main(args):
 		if args.print_only:
 			print(call_args_str)
 			continue
-		else:
-			# Log the XSL command to be run.
-			logger.debug(call_args_str)
+
+		# Log the XSL command to be run.
+		logger.debug(call_args_str)
 
 		# Call and store the exit status of the XSL command.
 		result = call(call_args)
@@ -122,8 +122,14 @@ def main(args):
 
 		# Move file to the error folder if an error code was returned.
 		if result != 0 and error_file is not None:
-			logger.error('Conversion failed. Moving file to %s', error_file)
-			os.rename(output_file, error_file)
+			if os.path.exists(output_file):
+				logger.error('Conversion failed. Moving file to %s', error_file)
+				os.rename(output_file, error_file)
+
+			else:
+				logger.error('Conversion failed for %s.', input_file)
+
+			# Continue on next file after failure.
 			continue
 
 		# Insert random UUIDs into converted files.
@@ -152,4 +158,4 @@ if '__main__' == __name__:
 	parser = get_arg_parser()
 	args = parser.parse_args()
 
-	main(args)
+	convert_files(args)
