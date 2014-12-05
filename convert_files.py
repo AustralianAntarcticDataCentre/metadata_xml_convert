@@ -112,10 +112,6 @@ def main(args):
 
 	# Loop over each of the files to be converted.
 	for paths in find_updated_files(args.force, conversions):
-		input_file = paths[0]
-		output_file = paths[2]
-		error_file = paths[3]
-
 		# Get the XSL transform command to be run.
 		call_args = get_msxsl_call(*paths[:3])
 		#call_args = get_saxon_call(*paths[:3])
@@ -123,21 +119,25 @@ def main(args):
 		# Store the call as a string for a debug message and printing.
 		call_args_str = ' '.join(call_args)
 
-		# Log the XSL command to be run.
-		logger.debug(call_args_str)
-
 		# Print the command and skip to the next.
 		if args.print_only:
 			print(call_args_str)
 			continue
+		else:
+			# Log the XSL command to be run.
+			logger.debug(call_args_str)
 
 		# Call and store the exit status of the XSL command.
 		result = call(call_args)
 
+		input_file = paths[0]
+		output_file = paths[2]
+		error_file = paths[3]
+
 		# Move file to the error folder if an error code was returned.
 		if result != 0 and error_file is not None:
-			os.rename(input_file, error_file)
 			logger.error('Conversion failed. Moving file to %s', error_file)
+			os.rename(output_file, error_file)
 			continue
 
 		# Insert random UUIDs into converted files.
