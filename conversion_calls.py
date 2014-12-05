@@ -1,3 +1,6 @@
+from settings import CONVERSIONS
+
+
 def get_conversions(index):
 	"""
 	Get the list of conversions to be performed.
