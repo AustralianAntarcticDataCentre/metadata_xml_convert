@@ -106,26 +106,11 @@ def find_updated_files(force_conversion=False, conversions=None):
 		check if conversion is allowed.
 	"""
 
-	xsl_path = lambda xsl: os.path.join(XSL_PATH, xsl)
-	out_path = lambda folder: os.path.join(EXPORT_PATH, folder)
-
-	if conversions is None:
-		conversions = CONVERSIONS
-
-	# Only include conversions where the XSL and output folder exist.
-	full_conversion_details = [
-		(xsl_path(x), out_path(o), f)
-		for x, o, f in conversions
-		if check_paths(xsl_path(x), out_path(o))
-	]
+	full_conversion_details = get_full_conversion_details(conversions)
 
 	# Loop the contents of the input folder.
-	for file_name in os.listdir(UPLOAD_PATH):
-		# Ignore non-xml files.
-		if not file_name.endswith('.xml'):
-			continue
-
-		# Get the path to the current file.
+	for file_name in get_files_in_folder(UPLOAD_PATH, '.xml'):
+		# Get the path to the current input file.
 		input_file = os.path.join(UPLOAD_PATH, file_name)
 
 		# Loop each of the conversion types.
@@ -173,7 +158,7 @@ def get_files_in_folder(folder, ext=''):
 		File extension filter.
 	"""
 
-	logger.debug('Checking for %s in %s', ext, folder)
+	logger.debug('Checking for "%s" in %s', ext, folder)
 
 	# Loop the contents of the folder.
 	for file_name in os.listdir(folder):
@@ -181,7 +166,41 @@ def get_files_in_folder(folder, ext=''):
 		if not file_name.endswith(ext):
 			continue
 
-		yield os.path.join(folder, file_name)
+		yield from os.path.join(folder, file_name)
+
+
+def get_full_conversion_details(conversions=None):
+	"""
+	Update the conversion file names to use the path settings.
+
+
+	Parameters
+	----------
+
+	conversions : list of tuples, optional
+		List of the conversion details.
+		Uses all conversions by default.
+
+
+	Returns
+	-------
+
+	list
+		Returns an updated list of tuples in the same structure as passed in.
+	"""
+
+	xsl_path = lambda xsl: os.path.join(XSL_PATH, xsl)
+	out_path = lambda folder: os.path.join(EXPORT_PATH, folder)
+
+	if conversions is None:
+		conversions = CONVERSIONS
+
+	# Only include conversions where the XSL and output folder exist.
+	return [
+		(xsl_path(x), out_path(o), f)
+		for x, o, f in conversions
+		if check_paths(xsl_path(x), out_path(o))
+	]
 
 
 def get_input_path(output_path):
