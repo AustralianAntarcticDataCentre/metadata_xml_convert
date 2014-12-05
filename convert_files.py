@@ -116,6 +116,7 @@ def main(args):
 		output_file = paths[2]
 		error_file = paths[3]
 
+		# Get the XSL transform command to be run.
 		call_args = get_msxsl_call(*paths[:3])
 		#call_args = get_saxon_call(*paths[:3])
 		call_args_str = ' '.join(call_args)
@@ -141,13 +142,15 @@ def main(args):
 		add_random_uuid_to_file(output_file)
 
 		# Insert the parent folder name into the file name.
+		# This returns a new file path that the function creates.
 		new_output_file = append_folder_to_file_name(output_file)
-
-		logger.info('Created %s', new_output_file)
 
 		# Delete the converted file if it already exists.
 		if os.path.exists(new_output_file):
+			logger.info('Delete existing %s', new_output_file)
 			os.remove(new_output_file)
+
+		logger.info('Created %s', new_output_file)
 
 		os.rename(output_file, new_output_file)
 
