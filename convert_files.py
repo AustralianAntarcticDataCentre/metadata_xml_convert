@@ -4,7 +4,7 @@ import os
 from subprocess import call
 from uuid import uuid4
 
-from conversion_calls import get_msxsl_call
+from conversion_calls import get_conversions, get_msxsl_call
 from file_checks import append_folder_to_file_name, find_updated_files
 from settings import CONVERSIONS
 
@@ -91,20 +91,6 @@ def get_arg_parser():
 	)
 
 	return parser
-
-
-def get_conversions(index):
-	"""
-	Get the list of conversions to be performed.
-
-	Defaults to doing all XSL conversions for all the files.
-	"""
-
-	if 0 <= index and index < len(CONVERSIONS):
-		return [CONVERSIONS[index],]
-
-	# Default to all conversions.
-	return CONVERSIONS
 
 
 def main(args):
