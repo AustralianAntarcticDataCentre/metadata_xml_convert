@@ -3,7 +3,7 @@ import logging
 import os
 
 from file_checks import get_files_in_folder, get_input_path
-from settings import CONVERSIONS, EXPORT_PATH, LOGGING_FORMAT
+from settings import CONVERSIONS, LOGGING_FORMAT, OUTPUT_PATH
 
 
 logger = logging.getLogger(__name__)
@@ -43,7 +43,7 @@ def main(args):
 	# Loop each conversion type, getting the folder name.
 	for xsl_file_name, output_folder, checker in CONVERSIONS:
 		# Get the conversion output folder.
-		output_path = os.path.join(EXPORT_PATH, output_folder)
+		output_path = os.path.join(OUTPUT_PATH, output_folder)
 
 		# Skip this conversion type if the folder does not exist.
 		if not os.path.exists(output_path):

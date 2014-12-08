@@ -2,7 +2,7 @@ import logging
 import os
 
 from settings import (
-	ADD_FOLDER_TO_FILE_NAME, CONVERSIONS, EXPORT_PATH, UPLOAD_PATH, XSL_PATH
+	ADD_FOLDER_TO_FILE_NAME, CONVERSIONS, OUTPUT_PATH, UPLOAD_PATH, XSL_PATH
 )
 
 
@@ -208,7 +208,7 @@ def get_full_conversion_details(conversions=None):
 	"""
 
 	xsl_path = lambda xsl: os.path.join(XSL_PATH, xsl)
-	out_path = lambda folder: os.path.join(EXPORT_PATH, folder)
+	out_path = lambda folder: os.path.join(OUTPUT_PATH, folder)
 
 	if conversions is None:
 		conversions = CONVERSIONS
