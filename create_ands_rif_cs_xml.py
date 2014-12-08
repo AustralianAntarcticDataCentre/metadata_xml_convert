@@ -1,14 +1,15 @@
 """
 Create an ANDS RIF-CS XML file.
 
+
 Links
 -----
 
 - http://ands.org.au/guides/cpguide/cpgrifcs.html
 
-- http://services.ands.org.au/documentation/rifcs/guidelines/rif-cs.html
+- http://ands.org.au/resource/rif-cs.html
 
-- http://www.ands.org.au/resource/rif-cs.html
+- http://services.ands.org.au/documentation/rifcs/guidelines/rif-cs.html
 """
 
 import logging
