@@ -136,7 +136,7 @@ def find_updated_files(force_conversion=False, conversions=None):
 			output_file = os.path.join(output_folder, file_name)
 
 			# Folder to store any failed conversions.
-			err_file = os.path.join(output_folder + '-error', file_name)
+			err_file = os.path.join(output_folder + '_error', file_name)
 
 			# Tuple with file paths used in the conversion.
 			paths = (input_file, xsl_path, output_file, err_file)
