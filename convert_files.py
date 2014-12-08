@@ -148,7 +148,7 @@ def convert_files(args):
 		# Store the call as a string for a debug message and printing.
 		call_args_str = ' '.join(call_args)
 
-		# Print the command and skip to the next.
+		# If requested, only print the command and skip to the next.
 		if args.print_only:
 			print(call_args_str)
 			continue
@@ -165,12 +165,12 @@ def convert_files(args):
 
 		# Move file to the error folder if an error code was returned.
 		if result != 0 and error_file is not None:
-			if os.path.exists(output_file):
-				logger.error('Conversion failed. Moving file to %s', error_file)
-				os.rename(output_file, error_file)
+			logger.error('Conversion failed for %s.', input_file)
 
-			else:
-				logger.error('Conversion failed for %s.', input_file)
+			# If an output file was created, move it to the error folder.
+			if os.path.exists(output_file):
+				logger.error('Moving output file to %s.', error_file)
+				os.rename(output_file, error_file)
 
 			# Continue on next file after failure.
 			continue
@@ -184,10 +184,10 @@ def convert_files(args):
 
 		# Delete the converted file if it already exists.
 		if os.path.exists(new_output_file):
-			logger.info('Delete existing %s', new_output_file)
+			logger.info('Delete existing %s.', new_output_file)
 			os.remove(new_output_file)
 
-		logger.info('Created %s', new_output_file)
+		logger.info('Created %s.', new_output_file)
 
 		os.rename(output_file, new_output_file)
 
