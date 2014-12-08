@@ -1,7 +1,7 @@
 import logging
 import os
 
-from settings import CONVERSIONS, XSL_PATH
+from settings import CONVERSIONS, LOGGING_FORMAT, XSL_PATH
 
 
 logger = logging.getLogger(__name__)
@@ -14,6 +14,6 @@ def print_xsl_files():
 
 
 if '__main__' == __name__:
-	logging.basicConfig(level=logging.DEBUG)
+	logging.basicConfig(format=LOGGING_FORMAT, level=logging.DEBUG)
 
 	print_xsl_files()

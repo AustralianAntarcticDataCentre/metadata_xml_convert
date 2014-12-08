@@ -6,7 +6,7 @@ from uuid import uuid4
 
 from conversion_calls import get_conversions, get_msxsl_call
 from file_checks import append_folder_to_file_name, find_updated_files
-from settings import CONVERSIONS
+from settings import CONVERSIONS, LOGGING_FORMAT
 
 
 logger = logging.getLogger(__name__)
@@ -196,7 +196,7 @@ def convert_files(args):
 
 
 if '__main__' == __name__:
-	logging.basicConfig(level=logging.DEBUG)
+	logging.basicConfig(format=LOGGING_FORMAT, level=logging.DEBUG)
 
 	parser = get_arg_parser()
 	args = parser.parse_args()
