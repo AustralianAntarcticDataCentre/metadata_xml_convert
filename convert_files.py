@@ -31,13 +31,20 @@ def add_random_uuid_to_file(file_name):
 
 	parts = content.split('INSERT_RANDOM_UUID_HERE')
 
+	# Make sure the insert statement appears at least once.
 	if len(parts) > 1:
 		new_content = ''
-		for section in parts[:-1]:
-			new_content = new_content + str(uuid4())
 
+		# Loop each section that wraps the insert UUID text.
+		# Loop continues until the second last section.
+		for section in parts[:-1]:
+			# Add section and UUID to new content text.
+			new_content = new_content + section + str(uuid4())
+
+		# Add the last section of content.
 		new_content = new_content + parts[-1]
 
+		# Save the new content back to the original file.
 		with open(file_name, 'w') as h:
 			h.write(new_content)
 
