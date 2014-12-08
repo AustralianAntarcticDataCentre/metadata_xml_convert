@@ -3,7 +3,7 @@ import logging
 import os
 
 from file_checks import get_files_in_folder, get_input_path
-from settings import CONVERSIONS, EXPORT_PATH
+from settings import CONVERSIONS, EXPORT_PATH, LOGGING_FORMAT
 
 
 logger = logging.getLogger(__name__)
@@ -78,18 +78,8 @@ def main(args):
 	logger.info('Deleted %s files in total.', full_deletion_count)
 
 
-yaml_fmt = '''
-- file: %(pathname)s
-  level: %(levelname)s
-  line: %(lineno)s
-  message: |
-    %(message)s
-  time: %(asctime)s
-'''.strip()
-
-
 if '__main__' == __name__:
-	logging.basicConfig(format=yaml_fmt, level=logging.DEBUG)
+	logging.basicConfig(format=LOGGING_FORMAT, level=logging.DEBUG)
 
 	logger.debug('File checking started.')
 
