@@ -24,6 +24,12 @@ def add_random_uuid_to_file(file_name):
 
 	file_name : str
 		Path to file to be modified.
+
+
+	Returns
+	-------
+
+	None
 	"""
 
 	with open(file_name) as h:
@@ -123,6 +129,12 @@ def convert_files(args):
 
 	args : argparse.Namespace
 		Class containing arguments from `argparse.ArgumentParser`.
+
+
+	Returns
+	-------
+
+	None
 	"""
 
 	conversions = get_conversions(args.xsl)
