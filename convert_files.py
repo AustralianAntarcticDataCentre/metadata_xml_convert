@@ -50,6 +50,19 @@ def add_random_uuid_to_file(file_name):
 
 
 def get_arg_parser():
+	"""
+	Return an argument parser for this script.
+
+	Does not include any subparsers.
+
+
+	Returns
+	-------
+
+	argparse.ArgumentParser
+		Argument parser that has the `parse_args()` statement.
+	"""
+
 	parser = argparse.ArgumentParser(description='Manage application')
 
 	parser.add_argument(
@@ -101,6 +114,17 @@ def get_arg_parser():
 
 
 def convert_files(args):
+	"""
+	Loop each of the XML files and apply the XSL transforms to them.
+
+
+	Parameters
+	----------
+
+	args : argparse.Namespace
+		Class containing arguments from `argparse.ArgumentParser`.
+	"""
+
 	conversions = get_conversions(args.xsl)
 
 	# Loop over each of the files to be converted.
