@@ -2,7 +2,7 @@ import logging
 import os
 
 from settings import (
-	ADD_FOLDER_TO_FILE_NAME, CONVERSIONS, OUTPUT_PATH, UPLOAD_PATH, XSL_PATH
+	ADD_FOLDER_TO_FILE_NAME, CONVERSIONS, INPUT_PATH, OUTPUT_PATH, XSL_PATH
 )
 
 
@@ -116,13 +116,13 @@ def find_updated_files(force_conversion=False, conversions=None):
 	full_conversion_details = get_full_conversion_details(conversions)
 
 	# Loop the contents of the input folder.
-	for file_name in os.listdir(UPLOAD_PATH):
+	for file_name in os.listdir(INPUT_PATH):
 		# Skip files with the wrong extension.
 		if not file_name.endswith('.xml'):
 			continue
 
 		# Get the path to the current input file.
-		input_file = os.path.join(UPLOAD_PATH, file_name)
+		input_file = os.path.join(INPUT_PATH, file_name)
 
 		# Loop each of the conversion types.
 		for xsl_path, output_folder, allowed in full_conversion_details:
@@ -259,4 +259,4 @@ def get_input_path(output_path):
 
 		file_name = '{}{}'.format(file_base_name, file_ext)
 
-	return os.path.join(UPLOAD_PATH, file_name)
+	return os.path.join(INPUT_PATH, file_name)
