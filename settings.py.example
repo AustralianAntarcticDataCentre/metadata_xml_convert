@@ -34,11 +34,11 @@ ANDS_XML_FILE_NAME = os.path.join(BASE_PATH, 'AAD_RegistryObjects.xml')
 
 ANDS_XML_FOLDER_PATH = os.path.join(EXPORT_PATH, 'ands_rif-cs')
 
-# Base path of where the converted XML should go.
-EXPORT_PATH = os.path.join(BASE_PATH, 'export')
-
 # Where the DIF XML files can be found.
-UPLOAD_PATH = os.path.join(BASE_PATH, 'import')
+INPUT_PATH = os.path.join(BASE_PATH, 'input')
+
+# Base path of where the converted XML should go.
+OUTPUT_PATH = os.path.join(BASE_PATH, 'output')
 
 # Base path of where the XML conversion files can be found.
 XSL_PATH = os.path.join(BASE_PATH, 'xsl')
