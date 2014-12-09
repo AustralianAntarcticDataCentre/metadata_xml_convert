@@ -6,6 +6,21 @@ def get_conversions(index):
 	Get the list of conversions to be performed.
 
 	Defaults to doing all XSL conversions for all the files.
+
+
+	Parameters
+	----------
+
+	index : int
+		Index of conversion to be used.
+		Incorrect index will use default (all conversions).
+
+
+	Returns
+	-------
+
+	list of tuples
+		List of conversion detail tuples.
 	"""
 
 	if 0 <= index and index < len(CONVERSIONS):
