@@ -111,7 +111,7 @@ def get_arg_parser():
 		'-x',
 		'--xsl',
 		dest='xsl',
-		default=-1,
+		default=0,
 		type=int,
 		help='Index of XSL transform to use.'
 	)
@@ -137,7 +137,7 @@ def convert_files(args):
 	None
 	"""
 
-	conversions = get_conversions(args.xsl)
+	conversions = get_conversions(args.xsl - 1)
 
 	# Loop over each of the files to be converted.
 	for paths in find_updated_files(args.force, conversions):
