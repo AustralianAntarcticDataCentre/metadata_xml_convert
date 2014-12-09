@@ -1,3 +1,15 @@
+"""
+Convert metadata using XSL files.
+
+
+Links
+-----
+
+- https://docs.python.org/3/library/io.html
+
+- https://docs.python.org/3/library/subprocess.html
+"""
+
 import argparse
 import logging
 import os
