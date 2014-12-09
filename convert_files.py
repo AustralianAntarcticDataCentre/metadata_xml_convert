@@ -157,10 +157,10 @@ def convert_files(args):
 		call_args = get_msxsl_call(*paths[:3])
 		#call_args = get_saxon_call(*paths[:3])
 
-		# Store the call as a string for a debug message and printing.
+		# Store the call as a string for debugging and printing.
 		call_args_str = ' '.join(call_args)
 
-		# If requested, only print the command and skip to the next.
+		# If requested, print the command then skip to the next.
 		if args.print_only:
 			print(call_args_str)
 			continue
@@ -184,9 +184,10 @@ def convert_files(args):
 				if os.path.exists(output_file):
 					logger.error('Moving output file to %s.', error_file)
 
+					# Rename/move the output file to an error file.
 					os.rename(output_file, error_file)
 
-			# Continue on next file after failure.
+			# Skip to the next file after a conversion failure.
 			continue
 
 		# Insert random UUIDs into converted files.
@@ -199,6 +200,7 @@ def convert_files(args):
 		# Delete the converted file if it already exists.
 		if os.path.exists(new_output_file):
 			logger.info('Delete existing %s.', new_output_file)
+
 			os.remove(new_output_file)
 
 		logger.info('Created %s.', new_output_file)
