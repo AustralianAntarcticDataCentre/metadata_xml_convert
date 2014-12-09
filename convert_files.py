@@ -164,13 +164,15 @@ def convert_files(args):
 		error_file = paths[3]
 
 		# Move file to the error folder if an error code was returned.
-		if result != 0 and error_file is not None:
+		if result != 0:
 			logger.error('Conversion failed for %s.', input_file)
 
-			# If an output file was created, move it to the error folder.
-			if os.path.exists(output_file):
-				logger.error('Moving output file to %s.', error_file)
-				os.rename(output_file, error_file)
+			if error_file is not None:
+				# If an output file was created, move it to the error folder.
+				if os.path.exists(output_file):
+					logger.error('Moving output file to %s.', error_file)
+
+					os.rename(output_file, error_file)
 
 			# Continue on next file after failure.
 			continue
