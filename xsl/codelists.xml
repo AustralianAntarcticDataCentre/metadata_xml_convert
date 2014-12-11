@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-	* Hide in edit mode : If some codelist needs to be hidden
-	in edit mode, the hideInEditMode attribute could be added
-	to any entries.
-
-	eg.
+	
+ * Hide in edit mode : If some codelist needs to be hidden
+ in edit mode, the hideInEditMode attribute could be added
+ to any entries.
+ 
+ eg.
 	<entry hideInEditMode="true">
-
-	This will restrict the number of available entries for end
-	user editors and keep all records ISO compatible when using
-	codelist (eg. harvested records could use codelist hidden
-	in local node and needs to be displayed in view mode).
-
-	By default, this attribute is not used.
+	
+ This will restrict the number of available entries for end
+ user editors and keep all records ISO compatible when using
+ codelist (eg. harvested records could use codelist hidden
+ in local node and needs to be displayed in view mode).
+ 
+ By default, this attribute is not used.
 -->
 <codelists xmlns:gmd="http://www.isotc211.org/2005/gmd">
 	<!-- ==================================================== -->
@@ -41,7 +42,8 @@
 		<entry>
 			<code>download</code>
 			<label>Download</label>
-			<description>Online instructions for transferring data from one storage device or system to another</description>
+			<description>Online instructions for transferring data from one storage device or system to
+				another</description>
 		</entry>
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
 		<entry>
@@ -53,7 +55,8 @@
 		<entry>
 			<code>offlineAccess</code>
 			<label>Offline access</label>
-			<description>Online instructions for requesting the resource from the provider</description>
+			<description>Online instructions for requesting the resource from the
+			provider</description>
 		</entry>
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
 		<entry>
@@ -65,7 +68,8 @@
 		<entry>
 			<code>search</code>
 			<label>Search</label>
-			<description>Online search interface for seeking out information about the resource</description>
+			<description>Online search interface for seeking out information about the
+			resource</description>
 		</entry>
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
 	</codelist>
@@ -74,7 +78,8 @@
 		<entry>
 			<code>documentDigital</code>
 			<label>Digital document</label>
-			<description>Digital representation of a primarily textual item (can contain illustrations also)</description>
+			<description>Digital representation of a primarily textual item (can contain illustrations
+				also)</description>
 		</entry>
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
 		<entry>
@@ -118,7 +123,8 @@
 		<entry>
 			<code>modelDigital</code>
 			<label>Digital model</label>
-			<description>Multi-dimensional digital representation of a feature, process, etc.</description>
+			<description>Multi-dimensional digital representation of a feature, process,
+			etc.</description>
 		</entry>
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
 		<entry>
@@ -208,19 +214,22 @@
 		<entry>
 			<code>pointOfContact</code>
 			<label>Point of contact</label>
-			<description>Party who can be contacted for acquiring knowledge about or acquisition of the resource</description>
+			<description>Party who can be contacted for acquiring knowledge about or acquisition of the
+				resource</description>
 		</entry>
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
 		<entry>
 			<code>principalInvestigator</code>
 			<label>Principal investigator</label>
-			<description>Key party responsible for gathering information and conducting research</description>
+			<description>Key party responsible for gathering information and conducting
+			research</description>
 		</entry>
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
 		<entry>
 			<code>processor</code>
 			<label>Processor</label>
-			<description>Party who has processed the data in a manner such that the resource has been modified</description>
+			<description>Party who has processed the data in a manner such that the resource has been
+				modified</description>
 		</entry>
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
 		<entry>
@@ -234,7 +243,7 @@
 			<label>Author</label>
 			<description>Party who authored the resource</description>
 		</entry>
-		<!-- ISO PROFIL CHE ONLY
+		<!-- ISO PROFIL CHE ONLY 
 		<entry>
 			<code>editor</code>
 			<label>Editor</label>
@@ -267,7 +276,8 @@
 		<entry>
 			<code>indirect</code>
 			<label>Indirect</label>
-			<description>Method of evaluating the quality of a dataset based on external knowledge</description>
+			<description>Method of evaluating the quality of a dataset based on external
+			knowledge</description>
 		</entry>
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
 	</codelist>
@@ -294,13 +304,15 @@
 		<entry>
 			<code>source</code>
 			<label>Source</label>
-			<description>Mapping and charting information from which the dataset content originates</description>
+			<description>Mapping and charting information from which the dataset content
+			originates</description>
 		</entry>
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
 		<entry>
 			<code>stereoMate</code>
 			<label>Stereo mate</label>
-			<description>Part of a set of imagery that when used together, provides three-dimensional images</description>
+			<description>Part of a set of imagery that when used together, provides three-dimensional
+				images</description>
 		</entry>
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
 	</codelist>
@@ -417,13 +429,15 @@
 		<entry>
 			<code>ucs2</code>
 			<label>UCS2</label>
-			<description>16-bit fixed size Universal Character Set, based on ISO/IEC 10646</description>
+			<description>16-bit fixed size Universal Character Set, based on ISO/IEC
+			10646</description>
 		</entry>
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
 		<entry>
 			<code>ucs4</code>
 			<label>UCS4</label>
-			<description>32-bit fixed size Universal Character Set, based on ISO/IEC 10646</description>
+			<description>32-bit fixed size Universal Character Set, based on ISO/IEC
+			10646</description>
 		</entry>
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
 		<entry>
@@ -588,7 +602,8 @@
 		<entry>
 			<code>big5</code>
 			<label>Big 5</label>
-			<description>Traditional Chinese code set used in Taiwan, Hong Kong of China and other areas</description>
+			<description>Traditional Chinese code set used in Taiwan, Hong Kong of China and other
+				areas</description>
 		</entry>
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
 		<entry>
@@ -621,7 +636,8 @@
 		<entry>
 			<code>secret</code>
 			<label>Secret</label>
-			<description>Kept or meant to be kept private, unknown, or hidden from all but a select group of people</description>
+			<description>Kept or meant to be kept private, unknown, or hidden from all but a select
+				group of people</description>
 		</entry>
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
 		<entry>
@@ -643,7 +659,8 @@
 		<entry>
 			<code>thematicClassification</code>
 			<label>Thematic classification</label>
-			<description>Code value with no quantitative meaning, used to represent a physical quantity</description>
+			<description>Code value with no quantitative meaning, used to represent a physical
+			quantity</description>
 		</entry>
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
 		<entry>
@@ -672,7 +689,8 @@
 		<entry>
 			<code>enumeration</code>
 			<label>Enumeration</label>
-			<description>Data type whose instances form a list of named literal values, not extendable</description>
+			<description>Data type whose instances form a list of named literal values, not
+			extendable</description>
 		</entry>
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
 		<entry>
@@ -690,7 +708,8 @@
 		<entry>
 			<code>aggregateClass</code>
 			<label>Aggregate class</label>
-			<description>Class that is composed of classes it is connected to by an aggregate relationship</description>
+			<description>Class that is composed of classes it is connected to by an aggregate
+				relationship</description>
 		</entry>
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
 		<entry>
@@ -703,13 +722,15 @@
 			<code>datatypeClass</code>
 			<label>Datatype class</label>
 			<description>Class with few or no operations whose primary purpose is to hold the abstract
-				state of another class for transmittal, storage, encoding or persistent storage</description>
+				state of another class for transmittal, storage, encoding or persistent
+			storage</description>
 		</entry>
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
 		<entry>
 			<code>interfaceClass</code>
 			<label>Interface class</label>
-			<description>Named set of operations that characterize the behavior of an element</description>
+			<description>Named set of operations that characterize the behavior of an
+			element</description>
 		</entry>
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
 		<entry>
@@ -728,7 +749,8 @@
 			<code>typeClass</code>
 			<label>Type class</label>
 			<description>Class used for specification of a domain of instances (objects), together with
-				the operations applicable to the objects. A type may have attributes and associations</description>
+				the operations applicable to the objects. A type may have attributes and
+			associations</description>
 		</entry>
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
 		<entry>
@@ -1184,7 +1206,7 @@
 			<description>Pamphlet or leaflet giving descriptive information</description>
 		</entry>
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
-		<!-- ISO PROFIL CHE ONLY
+		<!-- ISO PROFIL CHE ONLY 
 		<entry>
 			<code>zip100</code>
 			<label>Zip100</label>
@@ -1976,5 +1998,5 @@
 			<code>in/out</code>
 			<label>Input/output</label>
 		</entry>
-	</codelist>
+	</codelist>	
 </codelists>

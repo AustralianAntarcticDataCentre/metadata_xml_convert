@@ -2,9 +2,9 @@
 <gmx:CT_CodelistCatalogue xmlns:gmx="http://www.isotc211.org/2005/gmx"
 	xmlns:gco="http://www.isotc211.org/2005/gco" xmlns:gml="http://www.opengis.net/gml"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.isotc211.org/2005/gmx http://www.isotc211.org/2005/gmx/gmx.xsd
-	http://www.isotc211.org/2005/gco http://www.isotc211.org/2005/gco/gco.xsd
-	http://www.opengis.net/gml http://www.isotc211.org/2005/gml/gml.xsd
+	xsi:schemaLocation="http://www.isotc211.org/2005/gmx http://www.isotc211.org/2005/gmx/gmx.xsd 
+	http://www.isotc211.org/2005/gco http://www.isotc211.org/2005/gco/gco.xsd 
+	http://www.opengis.net/gml http://www.isotc211.org/2005/gml/gml.xsd 
 	http://www.w3.org/1999/xlink http://www.isotc211.org/2005/xlink/xlinks.xsd">
 	<gmx:name>
 		<gco:CharacterString>License Codelist</gco:CharacterString>
