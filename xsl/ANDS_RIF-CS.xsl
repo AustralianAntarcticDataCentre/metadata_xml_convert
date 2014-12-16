@@ -6,6 +6,7 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:custom="http://custom.nowhere.yet"
     xmlns="http://ands.org.au/standards/rif-cs/registryObjects">
     <!-- stylesheet to convert iso19139 in OAI-PMH ListRecords response to RIF-CS -->
     <xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="yes"/>
@@ -85,15 +86,15 @@
                     mode="collection_location"/>
 
                 <xsl:for-each-group
-                    select="gmd:identificationInfo/*:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:citedResponsibleParty/gmd:CI_ResponsibleParty[(string-length(normalize-space(gmd:individualName))) and 
-                    (string-length(normalize-space(gmd:role/gmd:CI_RoleCode/@codeListValue)))]"
+                    select="gmd:identificationInfo/*:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:citedResponsibleParty/gmd:CI_ResponsibleParty[(string-length(normalize-space(gmd:individualName)) > 0) and 
+                    (string-length(normalize-space(gmd:role/gmd:CI_RoleCode/@codeListValue)) > 0)]"
                     group-by="gmd:individualName">
                     <xsl:apply-templates select="." mode="collection_related_object"/>
                 </xsl:for-each-group>
 
                 <xsl:for-each-group
-                    select="gmd:identificationInfo/*:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:citedResponsibleParty/gmd:CI_ResponsibleParty[(string-length(normalize-space(gmd:organisationName)) and not(string-length(normalize-space(gmd:individualName)))) and 
-                    (string-length(normalize-space(gmd:role/gmd:CI_RoleCode/@codeListValue)))]"
+                    select="gmd:identificationInfo/*:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:citedResponsibleParty/gmd:CI_ResponsibleParty[((string-length(normalize-space(gmd:organisationName)) > 0) and not(string-length(normalize-space(gmd:individualName)) > 0)) and 
+                    (string-length(normalize-space(gmd:role/gmd:CI_RoleCode/@codeListValue)) > 0)]"
                     group-by="gmd:organisationName">
                     <xsl:apply-templates select="." mode="collection_related_object"/>
                 </xsl:for-each-group>
@@ -167,20 +168,20 @@
     <xsl:template match="*:MD_Metadata" mode="party">
 
         <xsl:for-each-group
-            select="gmd:identificationInfo/*:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:citedResponsibleParty/gmd:CI_ResponsibleParty[(string-length(normalize-space(gmd:individualName))) and 
-            (string-length(normalize-space(gmd:role/gmd:CI_RoleCode/@codeListValue)))]"
+            select="gmd:identificationInfo/*:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:citedResponsibleParty/gmd:CI_ResponsibleParty[(string-length(normalize-space(gmd:individualName)) > 0) and 
+            (string-length(normalize-space(gmd:role/gmd:CI_RoleCode/@codeListValue)) > 0)]"
             group-by="gmd:individualName">
             <xsl:call-template name="party">
-                <xsl:with-param name="type">person</xsl:with-param>
+                <xsl:with-param name="type" select="'person'"/>
             </xsl:call-template>
         </xsl:for-each-group>
 
         <xsl:for-each-group
-            select="gmd:identificationInfo/*:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:citedResponsibleParty/gmd:CI_ResponsibleParty[(string-length(normalize-space(gmd:organisationName))) and 
-            (string-length(normalize-space(gmd:role/gmd:CI_RoleCode/@codeListValue)))]"
+            select="gmd:identificationInfo/*:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:citedResponsibleParty/gmd:CI_ResponsibleParty[(string-length(normalize-space(gmd:organisationName)) > 0) and 
+            (string-length(normalize-space(gmd:role/gmd:CI_RoleCode/@codeListValue)) > 0)]"
             group-by="gmd:organisationName">
             <xsl:call-template name="party">
-                <xsl:with-param name="type">group</xsl:with-param>
+                <xsl:with-param name="type" select="'group'"/>
             </xsl:call-template>
         </xsl:for-each-group>
     </xsl:template>
@@ -217,7 +218,7 @@
 
     <xsl:template match="gmd:identifier" mode="collection_identifier">
         <xsl:variable name="code" select="normalize-space(gmd:MD_Identifier/gmd:code)"/>
-        <xsl:if test="string-length($code)">
+        <xsl:if test="string-length($code) > 0">
             <identifier>
                 <xsl:attribute name="type">
                     <xsl:choose>
@@ -393,12 +394,12 @@
     <!-- Collection - Coverage Spatial Element -->
     <xsl:template match="gmd:EX_TemporalExtent" mode="collection_coverage_temporal">
         <xsl:if
-            test="string-length(normalize-space(gmd:extent/gml:TimePeriod/gml:begin/gml:TimeInstant/gml:timePosition)) or
-                      string-length(normalize-space(gmd:extent/gml:TimePeriod/gml:end/gml:TimeInstant/gml:timePosition))">
+            test="(string-length(normalize-space(gmd:extent/gml:TimePeriod/gml:begin/gml:TimeInstant/gml:timePosition)) > 0) or
+                  (string-length(normalize-space(gmd:extent/gml:TimePeriod/gml:end/gml:TimeInstant/gml:timePosition)) > 0)">
             <coverage>
                 <temporal>
                     <xsl:if
-                        test="string-length(normalize-space(gmd:extent/gml:TimePeriod/gml:begin/gml:TimeInstant/gml:timePosition))">
+                        test="string-length(normalize-space(gmd:extent/gml:TimePeriod/gml:begin/gml:TimeInstant/gml:timePosition)) > 0">
                         <date>
                             <xsl:attribute name="dateFormat">
                                 <xsl:text>W3CDTF</xsl:text>
@@ -412,7 +413,7 @@
                         </date>
                     </xsl:if>
                     <xsl:if
-                        test="string-length(normalize-space(gmd:extent/gml:TimePeriod/gml:end/gml:TimeInstant/gml:timePosition))">
+                        test="string-length(normalize-space(gmd:extent/gml:TimePeriod/gml:end/gml:TimeInstant/gml:timePosition)) > 0">
                         <date>
                             <xsl:attribute name="dateFormat">
                                 <xsl:text>W3CDTF</xsl:text>
@@ -436,10 +437,11 @@
         <xsl:variable name="spatialString">
             <xsl:variable name="horizontal">
                 <xsl:if
-                    test="(string-length(normalize-space(gmd:northBoundLatitude/gco:Decimal))) and
-                                  (string-length(normalize-space(gmd:southBoundLatitude/gco:Decimal))) and
-                                  (string-length(normalize-space(gmd:westBoundLongitude/gco:Decimal))) and
-                                  (string-length(normalize-space(gmd:eastBoundLongitude/gco:Decimal)))">
+                    test="
+                    (string-length(normalize-space(gmd:northBoundLatitude/gco:Decimal)) > 0) and
+                    (string-length(normalize-space(gmd:southBoundLatitude/gco:Decimal)) > 0) and
+                    (string-length(normalize-space(gmd:westBoundLongitude/gco:Decimal)) > 0) and
+                    (string-length(normalize-space(gmd:eastBoundLongitude/gco:Decimal)) > 0)">
                     <xsl:value-of
                         select="normalize-space(concat('northlimit=',gmd:northBoundLatitude/gco:Decimal,'; southlimit=',gmd:southBoundLatitude/gco:Decimal,'; westlimit=',gmd:westBoundLongitude/gco:Decimal,'; eastLimit=',gmd:eastBoundLongitude/gco:Decimal))"
                     />
@@ -448,8 +450,8 @@
             <xsl:variable name="vertical">
                 <xsl:if
                     test="
-                        (string-length(normalize-space(gmd:EX_VerticalExtent/gmd:maximumValue/gco:Real))) and
-                        (string-length(normalize-space(gmd:EX_VerticalExtent/gmd:minimumValue/gco:Real)))">
+                    (string-length(normalize-space(gmd:EX_VerticalExtent/gmd:maximumValue/gco:Real)) > 0) and
+                    (string-length(normalize-space(gmd:EX_VerticalExtent/gmd:minimumValue/gco:Real)) > 0)">
                     <xsl:value-of
                         select="normalize-space(concat('; uplimit=',gmd:EX_VerticalExtent/gmd:maximumValue/gco:Real,'; downlimit=',gmd:EX_VerticalExtent/gmd:minimumValue/gco:Real))"
                     />
@@ -476,24 +478,16 @@
     <!-- Variable - Owner Name -->
     <xsl:template match="*:MD_DataIdentification" mode="variable_owner_name">
         <xsl:call-template name="childValueForRole">
-            <xsl:with-param name="roleSubstring">
-                <xsl:text>owner</xsl:text>
-            </xsl:with-param>
-            <xsl:with-param name="childElementName">
-                <xsl:text>organisationName</xsl:text>
-            </xsl:with-param>
+            <xsl:with-param name="roleSubstring" select="'owner'"/>
+            <xsl:with-param name="childElementName" select="'organisationName'"/>
         </xsl:call-template>
     </xsl:template>
 
     <!-- Variable - Individual Name -->
     <xsl:template match="*:MD_DataIdentification" mode="variable_individual_name">
         <xsl:call-template name="childValueForRole">
-            <xsl:with-param name="roleSubstring">
-                <xsl:text>owner</xsl:text>
-            </xsl:with-param>
-            <xsl:with-param name="childElementName">
-                <xsl:text>individualName</xsl:text>
-            </xsl:with-param>
+            <xsl:with-param name="roleSubstring" select="'owner'"/>
+            <xsl:with-param name="childElementName" select="'individualName'"/>
         </xsl:call-template>
     </xsl:template>
 
@@ -510,7 +504,7 @@
     <!-- Collection - Rights Licence Element -->
     <xsl:template match="gmd:MD_LegalConstraints" mode="collection_rights_licence">
         <xsl:variable name="otherConstraints" select="normalize-space(gmd:otherConstraints)"/>
-        <xsl:if test="string-length($otherConstraints)">
+        <xsl:if test="string-length($otherConstraints) > 0">
             <xsl:if test="contains(lower-case($otherConstraints), 'picccby')">
                 <rights>
                     <!--licence><xsl:text disable-output-escaping="yes">&lt;![CDATA[&lt;a href="http://polarcommons.org/ethics-and-norms-of-data-sharing.php"&gt; &lt;img src="http://polarcommons.org/images/PIC_print_small.png" style="border-width:0; width:40px; height:40px;" alt="Polar Information Commons's PICCCBY license."/&gt;&lt;/a&gt;&lt;a rel="license" href="http://creativecommons.org/licenses/by/3.0/"&gt; &lt;img alt="Creative Commons License" style="border-width:0; width: 88px; height: 31px;" src="http://i.creativecommons.org/l/by/3.0/88x31.png" /&gt;&lt;/a&gt;]]&gt;</xsl:text>
@@ -525,7 +519,7 @@
     <xsl:template match="gmd:MD_LegalConstraints" mode="collection_rights_rightsStatement">
         <xsl:for-each select="gmd:otherConstraints">
             <!-- If there is text in other contraints, use this; otherwise, do nothing -->
-            <xsl:if test="string-length(normalize-space(.))">
+            <xsl:if test="string-length(normalize-space(.)) > 0">
                 <rights>
                     <rightsStatement>
                         <xsl:value-of select="normalize-space(.)"/>
@@ -539,9 +533,15 @@
     <xsl:template match="gmd:MD_LegalConstraints" mode="collection_rights_accessRights">
         <xsl:for-each select="gmd:otherConstraints">
             <!-- If there is text in other contraints, use this; otherwise, do nothing -->
-            <xsl:if test="string-length(normalize-space(.))">
+            <xsl:if test="string-length(normalize-space(.)) > 0">
+                <xsl:variable name="accessRightsType" select="custom:accessRightsType(normalize-space(.))"/>
                 <rights>
                     <accessRights>
+                        <xsl:if test="string-length($accessRightsType) > 0">
+                            <xsl:attribute name="type">
+                                <xsl:value-of select="$accessRightsType"/>
+                            </xsl:attribute>
+                        </xsl:if>
                         <xsl:value-of select="normalize-space(.)"/>
                     </accessRights>
                 </rights>
@@ -564,7 +564,7 @@
         <xsl:variable name="identifierToUse">
             <xsl:choose>
                 <xsl:when
-                    test="count($doiIdentifier_sequence) and string-length($doiIdentifier_sequence[1])">
+                    test="count($doiIdentifier_sequence) and (string-length($doiIdentifier_sequence[1]) > 0)">
                     <xsl:value-of select="$doiIdentifier_sequence[1]"/>
                 </xsl:when>
                 <xsl:otherwise>
@@ -575,7 +575,7 @@
         <xsl:variable name="typeToUse">
             <xsl:choose>
                 <xsl:when
-                    test="count($doiIdentifier_sequence) and string-length($doiIdentifier_sequence[1])">
+                    test="count($doiIdentifier_sequence) and (string-length($doiIdentifier_sequence[1]) > 0)">
                     <xsl:text>doi</xsl:text>
                 </xsl:when>
                 <xsl:otherwise>
@@ -585,9 +585,9 @@
         </xsl:variable>
         <citationInfo>
             <citationMetadata>
-                <xsl:if test="string-length($identifierToUse)">
+                <xsl:if test="string-length($identifierToUse) > 0">
                     <identifier>
-                        <xsl:if test="string-length($typeToUse)">
+                        <xsl:if test="string-length($typeToUse) > 0">
                             <xsl:attribute name="type">
                                 <xsl:value-of select="$typeToUse"/>
                             </xsl:attribute>
@@ -618,8 +618,9 @@
 
                 <!-- Contributing individuals - note that we are ignoring those individuals where a role has not been specified -->
                 <xsl:for-each-group
-                    select="gmd:citedResponsibleParty/gmd:CI_ResponsibleParty[(string-length(normalize-space(gmd:individualName))) and 
-                    (string-length(normalize-space(gmd:role/gmd:CI_RoleCode/@codeListValue)))]"
+                    select="
+                    gmd:citedResponsibleParty/gmd:CI_ResponsibleParty[(string-length(normalize-space(gmd:individualName)) > 0) and 
+                    (string-length(normalize-space(gmd:role/gmd:CI_RoleCode/@codeListValue)) > 0)]"
                     group-by="gmd:individualName">
 
                     <xsl:variable name="individualName"
@@ -645,9 +646,9 @@
                         Note again that we are ignoring organisations where a role has not been specified -->
                 <xsl:for-each-group
                     select="gmd:citedResponsibleParty/gmd:CI_ResponsibleParty[
-                            (string-length(normalize-space(gmd:organisationName))) and
-                            not(string-length(normalize-space(gmd:individualName))) and
-                            (string-length(normalize-space(gmd:role/gmd:CI_RoleCode/@codeListValue)))]"
+                            (string-length(normalize-space(gmd:organisationName)) > 0) and
+                            not(string-length(normalize-space(gmd:individualName)) > 0) and
+                            (string-length(normalize-space(gmd:role/gmd:CI_RoleCode/@codeListValue)) > 0)]"
                     group-by="gmd:organisationName">
 
                     <xsl:variable name="transformedOrganisationName">
@@ -678,7 +679,7 @@
                     <xsl:call-template name="publishNameToUse"/>
                 </xsl:variable>
 
-                <xsl:if test="string-length($publishName)">
+                <xsl:if test="string-length($publishName) > 0">
                     <publisher>
                         <xsl:value-of select="$publishName"/>
                     </publisher>
@@ -690,7 +691,7 @@
                     </xsl:call-template>
                 </xsl:variable>
 
-                <xsl:if test="string-length($publishPlace)">
+                <xsl:if test="string-length($publishPlace) > 0">
                     <placePublished>
                         <xsl:value-of select="$publishPlace"/>
                     </placePublished>
@@ -767,7 +768,7 @@
 
                         <xsl:choose>
                             <xsl:when
-                                test="string-length(normalize-space($transformedOrganisationName))">
+                                test="string-length(normalize-space($transformedOrganisationName)) > 0">
                                 <!--  Individual has an organisation name, so related the individual to the organisation, and omit the address 
                                     (the address will be included within the organisation to which this individual is related) -->
                                 <relatedObject>
@@ -822,25 +823,25 @@
                                      </addressPart>
                                 </xsl:for-each>
                                 
-                                 <xsl:if test="string-length(normalize-space(gmd:contactInfo/gmd:CI_Contact/gmd:address/gmd:CI_Address/gmd:city))">
+                                 <xsl:if test="string-length(normalize-space(gmd:contactInfo/gmd:CI_Contact/gmd:address/gmd:CI_Address/gmd:city)) > 0">
                                       <addressPart type="suburbOrPlaceLocality">
                                           <xsl:value-of select="normalize-space(gmd:contactInfo/gmd:CI_Contact/gmd:address/gmd:CI_Address/gmd:city)"/>
                                       </addressPart>
                                  </xsl:if>
                                 
-                                 <xsl:if test="string-length(normalize-space(gmd:contactInfo/gmd:CI_Contact/gmd:address/gmd:CI_Address/gmd:administrativeArea))">
+                                 <xsl:if test="string-length(normalize-space(gmd:contactInfo/gmd:CI_Contact/gmd:address/gmd:CI_Address/gmd:administrativeArea)) > 0">
                                      <addressPart type="stateOrTerritory">
                                          <xsl:value-of select="normalize-space(gmd:contactInfo/gmd:CI_Contact/gmd:address/gmd:CI_Address/gmd:administrativeArea)"/>
                                      </addressPart>
                                  </xsl:if>
                                      
-                                 <xsl:if test="string-length(normalize-space(gmd:contactInfo/gmd:CI_Contact/gmd:address/gmd:CI_Address/gmd:postalCode))">
+                                 <xsl:if test="string-length(normalize-space(gmd:contactInfo/gmd:CI_Contact/gmd:address/gmd:CI_Address/gmd:postalCode)) > 0">
                                      <addressPart type="postCode">
                                          <xsl:value-of select="normalize-space(gmd:contactInfo/gmd:CI_Contact/gmd:address/gmd:CI_Address/gmd:postalCode)"/>
                                      </addressPart>
                                  </xsl:if>
                                  
-                                 <xsl:if test="string-length(normalize-space(gmd:contactInfo/gmd:CI_Contact/gmd:address/gmd:CI_Address/gmd:country))">
+                                 <xsl:if test="string-length(normalize-space(gmd:contactInfo/gmd:CI_Contact/gmd:address/gmd:CI_Address/gmd:country)) > 0">
                                      <addressPart type="country">
                                          <xsl:value-of select="normalize-space(gmd:contactInfo/gmd:CI_Contact/gmd:address/gmd:CI_Address/gmd:country)"/>
                                      </addressPart>
@@ -943,12 +944,8 @@
         <xsl:message>Module: publishNameToUse</xsl:message>
         <xsl:variable name="organisationPublisherName">
             <xsl:call-template name="childValueForRole">
-                <xsl:with-param name="roleSubstring">
-                    <xsl:text>publish</xsl:text>
-                </xsl:with-param>
-                <xsl:with-param name="childElementName">
-                    <xsl:text>organisationName</xsl:text>
-                </xsl:with-param>
+                <xsl:with-param name="roleSubstring" select="'publish'"/>
+                <xsl:with-param name="childElementName" select="'organisationName'"/>
             </xsl:call-template>
         </xsl:variable>
 
@@ -963,12 +960,8 @@
 
         <xsl:variable name="individualPublisherName">
             <xsl:call-template name="childValueForRole">
-                <xsl:with-param name="roleSubstring">
-                    <xsl:text>publish</xsl:text>
-                </xsl:with-param>
-                <xsl:with-param name="childElementName">
-                    <xsl:text>individualName</xsl:text>
-                </xsl:with-param>
+                <xsl:with-param name="roleSubstring" select="'publish'"/>
+                <xsl:with-param name="childElementName" select="'individualName'"/>
             </xsl:call-template>
         </xsl:variable>
 
@@ -982,10 +975,10 @@
         </xsl:variable>
 
         <xsl:choose>
-            <xsl:when test="string-length(normalize-space($transformedOrganisationPublisherName))">
+            <xsl:when test="string-length(normalize-space($transformedOrganisationPublisherName)) > 0">
                 <xsl:value-of select="$transformedOrganisationPublisherName"/>
             </xsl:when>
-            <xsl:when test="string-length(normalize-space($transformedIndividualPublisherName))">
+            <xsl:when test="string-length(normalize-space($transformedIndividualPublisherName)) > 0">
                 <xsl:value-of select="$transformedIndividualPublisherName"/>
             </xsl:when>
             <xsl:otherwise>
@@ -998,12 +991,8 @@
         <xsl:param name="publishNameToUse"/>
         <xsl:variable name="publishCity">
             <xsl:call-template name="childValueForRole">
-                <xsl:with-param name="roleSubstring">
-                    <xsl:text>publish</xsl:text>
-                </xsl:with-param>
-                <xsl:with-param name="childElementName">
-                    <xsl:text>city</xsl:text>
-                </xsl:with-param>
+                <xsl:with-param name="roleSubstring" select="'publish'"/>
+                <xsl:with-param name="childElementName" select="'city'"/>
             </xsl:call-template>
         </xsl:variable>
 
@@ -1011,22 +1000,18 @@
 
         <xsl:variable name="publishCountry">
             <xsl:call-template name="childValueForRole">
-                <xsl:with-param name="roleSubstring">
-                    <xsl:text>publish</xsl:text>
-                </xsl:with-param>
-                <xsl:with-param name="childElementName">
-                    <xsl:text>country</xsl:text>
-                </xsl:with-param>
+                <xsl:with-param name="roleSubstring" select="'publish'"/>
+                <xsl:with-param name="childElementName" select="'country'"/>
             </xsl:call-template>
         </xsl:variable>
 
         <xsl:message>Publish Country: <xsl:value-of select="$publishCountry"/></xsl:message>
 
         <xsl:choose>
-            <xsl:when test="string-length($publishCity)">
+            <xsl:when test="string-length($publishCity) > 0">
                 <xsl:value-of select="$publishCity"/>
             </xsl:when>
-            <xsl:when test="string-length($publishCountry)">
+            <xsl:when test="string-length($publishCountry) > 0">
                 <xsl:value-of select="$publishCity"/>
             </xsl:when>
             <xsl:otherwise>
@@ -1064,8 +1049,8 @@
         <xsl:variable name="nameSequence" as="xs:string*">
             <xsl:for-each-group
                 select="descendant::gmd:CI_ResponsibleParty[
-                (string-length(normalize-space(descendant::node()[local-name()=$childElementName]))) and 
-                (string-length(normalize-space(gmd:role/gmd:CI_RoleCode/@codeListValue)))]"
+                (string-length(normalize-space(descendant::node()[local-name()=$childElementName])) > 0) and 
+                (string-length(normalize-space(gmd:role/gmd:CI_RoleCode/@codeListValue)) > 0)]"
                 group-by="descendant::node()[local-name()=$childElementName]">
                 <xsl:choose>
                     <!-- obtain for two locations so far - we don't want for example we don't want
@@ -1101,7 +1086,7 @@
                 <xsl:value-of select="."/>
             </xsl:for-each>
         </xsl:variable>
-        <xsl:if test="string-length($formattedValues)">
+        <xsl:if test="string-length($formattedValues) > 0">
             <xsl:message>Formatted values: <xsl:value-of select="$formattedValues"/></xsl:message>
         </xsl:if>
         <xsl:value-of select="$formattedValues"/>
@@ -1122,10 +1107,49 @@
                 </xsl:call-template>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:if test="string-length(normalize-space($string))">
+                <xsl:if test="string-length(normalize-space($string)) > 0">
                     <xsl:value-of select="normalize-space($string)"/>
                 </xsl:if>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
+    
+    <xsl:function name="custom:accessRightsType" as="xs:string">
+        <xsl:param name="text" as="xs:string"/>
+        <xsl:choose>
+            <xsl:when test="
+                contains(lower-case($text), 'conditions apply') or
+                contains(lower-case($text), 'can only be accessed at the australian antarctic') or
+                contains(lower-case($text), 'are currently available only to') or
+                contains(lower-case($text), 'can only be accessed by contacting the australian antarctic') or
+                contains(lower-case($text), 'available on request')">
+                <xsl:text>conditional</xsl:text>
+            </xsl:when>
+            <xsl:when test="
+                contains(lower-case($text), 'data are not yet publicly available') or 
+                contains(lower-case($text), 'data are currently not publicly available') or
+                contains(lower-case($text), 'dataset is currently not publicly available') or
+                contains(lower-case($text), 'dataset is not yet publicly available') or
+                contains(lower-case($text), 'dataset for this project is not yet publicly available') or
+                contains(lower-case($text), 'the data for this project is not yet publicly available') or
+                contains(lower-case($text), 'dataset not yet publicly available')">
+                <xsl:text>restricted</xsl:text>
+            </xsl:when>
+            <xsl:when test="
+                contains(lower-case($text), 'data are publicly available') or 
+                contains(lower-case($text), 'dataset is publicly available') or
+                contains(lower-case($text), 'dataset for this project is publicly available') or
+                contains(lower-case($text), 'data for this project is publicly available') or
+                contains(lower-case($text), 'dataset publicly available') or
+                contains(lower-case($text), 'available for download as shapefiles') or
+                contains(lower-case($text), 'available for downloading as shapefiles') or
+                contains(lower-case($text), 'shapefiles are available for download')">
+                <xsl:text>open</xsl:text>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:text></xsl:text>
+            </xsl:otherwise>
+        </xsl:choose>
+        
+    </xsl:function>
 </xsl:stylesheet>
