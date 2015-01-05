@@ -30,7 +30,7 @@
     <!-- RegistryObjects (root) Template             -->
     <!-- =========================================== -->
 
-    <xsl:template match="*:MD_Metadata">
+    <xsl:template match="gmd:MD_Metadata">
         <!--registryObjects-->
         <!--xsl:attribute name="xsi:schemaLocation">
                 <xsl:text>http://ands.org.au/standards/rif-cs/registryObjects http://services.ands.org.au/documentation/rifcs/schema/registryObjects.xsd</xsl:text>
@@ -46,7 +46,7 @@
     <!-- Collection RegistryObject Template          -->
     <!-- =========================================== -->
 
-    <xsl:template match="*:MD_Metadata" mode="collection">
+    <xsl:template match="gmd:MD_Metadata" mode="collection">
 
         <!-- construct parameters for values that are required in more than one place in the output xml-->
         <xsl:param name="dataSetURI"
@@ -70,15 +70,15 @@
                 <xsl:apply-templates select="gmd:fileIdentifier" mode="collection_identifier"/>
 
                 <xsl:apply-templates
-                    select="gmd:identificationInfo/*:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:identifier"
+                    select="gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:identifier"
                     mode="collection_identifier"/>
 
                 <xsl:apply-templates
-                    select="gmd:identificationInfo/*:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:title"
+                    select="gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:title"
                     mode="collection_name"/>
 
                 <xsl:apply-templates
-                    select="gmd:identificationInfo/*:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:date"
+                    select="gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:date"
                     mode="collection_dates"/>
 
                 <xsl:apply-templates
@@ -86,71 +86,71 @@
                     mode="collection_location"/>
 
                 <xsl:for-each-group
-                    select="gmd:identificationInfo/*:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:citedResponsibleParty/gmd:CI_ResponsibleParty[(string-length(normalize-space(gmd:individualName)) > 0) and 
+                    select="gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:citedResponsibleParty/gmd:CI_ResponsibleParty[(string-length(normalize-space(gmd:individualName)) > 0) and 
                     (string-length(normalize-space(gmd:role/gmd:CI_RoleCode/@codeListValue)) > 0)]"
                     group-by="gmd:individualName">
                     <xsl:apply-templates select="." mode="collection_related_object"/>
                 </xsl:for-each-group>
 
                 <xsl:for-each-group
-                    select="gmd:identificationInfo/*:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:citedResponsibleParty/gmd:CI_ResponsibleParty[((string-length(normalize-space(gmd:organisationName)) > 0) and not(string-length(normalize-space(gmd:individualName)) > 0)) and 
+                    select="gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:citedResponsibleParty/gmd:CI_ResponsibleParty[((string-length(normalize-space(gmd:organisationName)) > 0) and not(string-length(normalize-space(gmd:individualName)) > 0)) and 
                     (string-length(normalize-space(gmd:role/gmd:CI_RoleCode/@codeListValue)) > 0)]"
                     group-by="gmd:organisationName">
                     <xsl:apply-templates select="." mode="collection_related_object"/>
                 </xsl:for-each-group>
 
                 <xsl:apply-templates
-                    select="gmd:identificationInfo/*:MD_DataIdentification/gmd:topicCategory/gmd:MD_TopicCategoryCode"
+                    select="gmd:identificationInfo/gmd:MD_DataIdentification/gmd:topicCategory/gmd:MD_TopicCategoryCode"
                     mode="collection_subject"/>
 
-                <xsl:apply-templates select="gmd:identificationInfo/*:MD_DataIdentification"
+                <xsl:apply-templates select="gmd:identificationInfo/gmd:MD_DataIdentification"
                     mode="collection_subject"/>
 
                 <xsl:apply-templates
-                    select="gmd:identificationInfo/*:MD_DataIdentification/gmd:abstract"
+                    select="gmd:identificationInfo/gmd:MD_DataIdentification/gmd:abstract"
                     mode="collection_description"/>
 
                 <xsl:apply-templates
-                    select="gmd:identificationInfo/*:MD_DataIdentification/gmd:extent/gmd:EX_Extent/gmd:geographicElement/gmd:EX_GeographicBoundingBox"
+                    select="gmd:identificationInfo/gmd:MD_DataIdentification/gmd:extent/gmd:EX_Extent/gmd:geographicElement/gmd:EX_GeographicBoundingBox"
                     mode="collection_coverage_spatial"/>
 
                 <xsl:apply-templates
-                    select="gmd:identificationInfo/*:MD_DataIdentification/gmd:extent/gmd:EX_Extent/gmd:temporalElement/gmd:EX_TemporalExtent"
+                    select="gmd:identificationInfo/gmd:MD_DataIdentification/gmd:extent/gmd:EX_Extent/gmd:temporalElement/gmd:EX_TemporalExtent"
                     mode="collection_coverage_temporal"/>
 
                 <xsl:variable name="organisationOwnerName">
-                    <xsl:apply-templates select="gmd:identificationInfo/*:MD_DataIdentification"
+                    <xsl:apply-templates select="gmd:identificationInfo/gmd:MD_DataIdentification"
                         mode="variable_owner_name"/>
                 </xsl:variable>
 
                 <xsl:variable name="individualOwnerName">
-                    <xsl:apply-templates select="gmd:identificationInfo/*:MD_DataIdentification"
+                    <xsl:apply-templates select="gmd:identificationInfo/gmd:MD_DataIdentification"
                         mode="variable_individual_name"/>
                 </xsl:variable>
 
                 <xsl:variable name="publishDate">
                     <xsl:apply-templates
-                        select="gmd:identificationInfo/*:MD_DataIdentification/gmd:citation"
+                        select="gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation"
                         mode="variable_publish_date"/>
                 </xsl:variable>
 
                 <xsl:apply-templates
-                    select="gmd:identificationInfo/*:MD_DataIdentification/gmd:resourceConstraints/gmd:MD_LegalConstraints[
+                    select="gmd:identificationInfo/gmd:MD_DataIdentification/gmd:resourceConstraints/gmd:MD_LegalConstraints[
                     exists(gmd:otherConstraints)]"
                     mode="collection_rights_licence"/>
 
                 <xsl:apply-templates
-                    select="gmd:identificationInfo/*:MD_DataIdentification/gmd:resourceConstraints/gmd:MD_LegalConstraints[
+                    select="gmd:identificationInfo/gmd:MD_DataIdentification/gmd:resourceConstraints/gmd:MD_LegalConstraints[
                     exists(gmd:useConstraints) and exists(gmd:otherConstraints)]"
                     mode="collection_rights_rightsStatement"/>
 
                 <xsl:apply-templates
-                    select="gmd:identificationInfo/*:MD_DataIdentification/gmd:resourceConstraints/gmd:MD_LegalConstraints[
+                    select="gmd:identificationInfo/gmd:MD_DataIdentification/gmd:resourceConstraints/gmd:MD_LegalConstraints[
                     exists(gmd:accessConstraints) and exists(gmd:otherConstraints)]"
                     mode="collection_rights_accessRights"/>
 
                 <xsl:for-each
-                    select="gmd:identificationInfo/*:MD_DataIdentification/gmd:citation/gmd:CI_Citation">
+                    select="gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation">
                     <xsl:call-template name="collection_citationMetadata_citationInfo">
                         <xsl:with-param name="dataSetURI" select="$dataSetURI"/>
                         <xsl:with-param name="citation" select="."/>
@@ -165,10 +165,10 @@
     <!-- Party RegistryObject Template          -->
     <!-- =========================================== -->
 
-    <xsl:template match="*:MD_Metadata" mode="party">
+    <xsl:template match="gmd:MD_Metadata" mode="party">
 
         <xsl:for-each-group
-            select="gmd:identificationInfo/*:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:citedResponsibleParty/gmd:CI_ResponsibleParty[(string-length(normalize-space(gmd:individualName)) > 0) and 
+            select="gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:citedResponsibleParty/gmd:CI_ResponsibleParty[(string-length(normalize-space(gmd:individualName)) > 0) and 
             (string-length(normalize-space(gmd:role/gmd:CI_RoleCode/@codeListValue)) > 0)]"
             group-by="gmd:individualName">
             <xsl:call-template name="party">
@@ -177,7 +177,7 @@
         </xsl:for-each-group>
 
         <xsl:for-each-group
-            select="gmd:identificationInfo/*:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:citedResponsibleParty/gmd:CI_ResponsibleParty[(string-length(normalize-space(gmd:organisationName)) > 0) and 
+            select="gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:citedResponsibleParty/gmd:CI_ResponsibleParty[(string-length(normalize-space(gmd:organisationName)) > 0) and 
             (string-length(normalize-space(gmd:role/gmd:CI_RoleCode/@codeListValue)) > 0)]"
             group-by="gmd:organisationName">
             <xsl:call-template name="party">
@@ -247,7 +247,7 @@
 
     <!-- Collection - Name Element  -->
     <xsl:template
-        match="gmd:identificationInfo/*:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:title"
+        match="gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:title"
         mode="collection_name">
         <name>
             <xsl:attribute name="type">
@@ -277,7 +277,7 @@
 
     <!-- Collection - Dates Element  -->
     <xsl:template
-        match="gmd:identificationInfo/*:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:date"
+        match="gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:date"
         mode="collection_dates">
         <xsl:variable name="dateTime" select="normalize-space(gmd:CI_Date/gmd:date/gco:Date)"/>
         <xsl:variable name="dateCode"
@@ -344,7 +344,7 @@
 
     <!-- Collection - Subject Element -->
 
-    <xsl:template match="*:MD_DataIdentification" mode="collection_subject">
+    <xsl:template match="gmd:MD_DataIdentification" mode="collection_subject">
         <xsl:message>gmd:MD_Keywords</xsl:message>
 
         <xsl:for-each select="gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword">
@@ -476,7 +476,7 @@
     </xsl:template>
 
     <!-- Variable - Owner Name -->
-    <xsl:template match="*:MD_DataIdentification" mode="variable_owner_name">
+    <xsl:template match="gmd:MD_DataIdentification" mode="variable_owner_name">
         <xsl:call-template name="childValueForRole">
             <xsl:with-param name="roleSubstring" select="'owner'"/>
             <xsl:with-param name="childElementName" select="'organisationName'"/>
@@ -484,7 +484,7 @@
     </xsl:template>
 
     <!-- Variable - Individual Name -->
-    <xsl:template match="*:MD_DataIdentification" mode="variable_individual_name">
+    <xsl:template match="gmd:MD_DataIdentification" mode="variable_individual_name">
         <xsl:call-template name="childValueForRole">
             <xsl:with-param name="roleSubstring" select="'owner'"/>
             <xsl:with-param name="childElementName" select="'individualName'"/>
@@ -492,7 +492,7 @@
     </xsl:template>
 
     <!-- Variable - Publish Date -->
-    <xsl:template match="*:MD_DataIdentification/gmd:citation" mode="variable_publish_date">
+    <xsl:template match="gmd:MD_DataIdentification/gmd:citation" mode="variable_publish_date">
         <xsl:for-each select="gmd:CI_Citation/gmd:date/gmd:CI_Date">
             <xsl:if
                 test="contains(lower-case(normalize-space(gmd:dateType/gmd:CI_DateTypeCode/@codeListValue)), 'publication')">
