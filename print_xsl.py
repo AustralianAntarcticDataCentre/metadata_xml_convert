@@ -8,9 +8,9 @@ logger = logging.getLogger(__name__)
 
 
 def print_xsl_files():
-	for parts in CONVERSIONS:
+	for index, parts in enumerate(CONVERSIONS):
 		file_path = os.path.join(XSL_PATH, parts[0])
-		print(file_path)
+		print('{}: {}'.format(index + 1, file_path))
 
 
 if '__main__' == __name__:
