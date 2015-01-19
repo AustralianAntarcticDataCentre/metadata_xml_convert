@@ -32,9 +32,11 @@ Convert each of the XML files using all of the XSL files.
 
 #### Convert using a single XSL
 
-You can specify a single XSL to use with `-x 1`:
+You can specify a single XSL to use with `-x`:
 
 	python convert_files.py -x 1
+
+This only uses the first XSL for conversions.
 
 The number is the one-based index from `python print_xsl.py`.
 
