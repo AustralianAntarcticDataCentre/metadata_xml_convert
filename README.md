@@ -7,7 +7,7 @@ XML formats using XSL files.
 ## Requirements
 
 Paths to required folders are specified in the `settings.py` module.
-This can be created by copying and renaming `settings.py.example`.
+This can be created by copying and renaming `settings.example.py`.
 
 This script only uses Python 3.4 standard libraries.
 
