@@ -4,10 +4,6 @@ import os
 from conversion_check import check_ands_rif_cs, check_iso_mcp
 
 
-BASE_PATH = os.getcwd()
-#BASE_PATH = os.path.normpath(BASE_PATH)
-
-
 # Use `file-parent.ext` for converted files.
 ADD_FOLDER_TO_FILE_NAME = True
 
@@ -47,9 +43,17 @@ LOGGING_KWARGS = dict(
 )
 
 
+#
+# File paths
+#
+
+BASE_PATH = os.getcwd()
+#BASE_PATH = os.path.normpath(BASE_PATH)
+
+
 ANDS_XML_FILE_NAME = os.path.join(BASE_PATH, 'AAD_RegistryObjects.xml')
 
-ANDS_XML_FOLDER_PATH = os.path.join(EXPORT_PATH, 'ands_rif-cs')
+ANDS_XML_FOLDER_PATH = os.path.join(BASE_PATH, 'output', 'ands_rif-cs')
 
 # Where the DIF XML files can be found.
 INPUT_PATH = os.path.join(BASE_PATH, 'input')
