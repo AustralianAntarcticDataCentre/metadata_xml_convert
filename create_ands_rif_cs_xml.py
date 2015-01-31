@@ -17,7 +17,7 @@ import os
 
 from settings import (
 	ANDS_XML_FILE_NAME, ANDS_XML_FOLDER_PATH, ANDS_XML_START, ANDS_XML_STOP,
-	LOGGING_FORMAT
+	LOGGING_KWARGS
 )
 
 
@@ -36,6 +36,6 @@ def main():
 
 
 if '__main__' == __name__:
-	logging.basicConfig(format=LOGGING_FORMAT, level=logging.DEBUG)
+	logging.basicConfig(**LOGGING_KWARGS)
 
 	main()

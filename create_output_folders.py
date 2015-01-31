@@ -1,7 +1,7 @@
 import logging
 import os
 
-from settings import CONVERSIONS, LOGGING_FORMAT, OUTPUT_PATH
+from settings import CONVERSIONS, LOGGING_KWARGS, OUTPUT_PATH
 
 
 logger = logging.getLogger(__name__)
@@ -33,7 +33,7 @@ def main():
 
 
 if '__main__' == __name__:
-	logging.basicConfig(format=LOGGING_FORMAT, level=logging.DEBUG)
+	logging.basicConfig(**LOGGING_KWARGS)
 
 	logger.debug('Folder creation started.')
 

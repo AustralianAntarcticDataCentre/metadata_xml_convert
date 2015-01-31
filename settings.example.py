@@ -1,3 +1,4 @@
+import logging
 import os
 
 from conversion_check import check_ands_rif_cs, check_iso_mcp
@@ -27,6 +28,22 @@ CONVERSIONS = (
 	('DIF-ISO-ANDS-3.3.xsl', 'iso-ands', None),
 	('DIF-ISO-ANZLIC-3.3.xsl', 'iso-anzlic', None),
 	('DIF-ISO-MCP-3.3.xsl', 'iso-mcp', check_iso_mcp),
+)
+
+#- file: %(pathname)s
+#  function: %(funcName)s
+LOGGING_FORMAT = '''
+- level: %(levelname)s
+  line: %(lineno)s
+  logger: %(name)s
+  message: |
+    %(message)s
+  time: %(asctime)s
+'''.strip()
+
+LOGGING_KWARGS = dict(
+	fromat=LOGGING_FORMAT,
+	level=logging.DEBUG
 )
 
 

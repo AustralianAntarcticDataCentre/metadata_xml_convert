@@ -3,7 +3,7 @@ import logging
 import os
 
 from file_checks import get_files_in_folder, get_input_path
-from settings import CONVERSIONS, LOGGING_FORMAT, OUTPUT_PATH
+from settings import CONVERSIONS, LOGGING_KWARGS, OUTPUT_PATH
 
 
 logger = logging.getLogger(__name__)
@@ -79,7 +79,7 @@ def main(args):
 
 
 if '__main__' == __name__:
-	logging.basicConfig(format=LOGGING_FORMAT, level=logging.DEBUG)
+	logging.basicConfig(**LOGGING_KWARGS)
 
 	logger.debug('File checking started.')
 
