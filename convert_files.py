@@ -154,8 +154,8 @@ def convert_files(args):
 	# Loop over each of the files to be converted.
 	for paths in find_updated_files(args.force, conversions):
 		# Get the XSL transform command to be run.
-		call_args = get_msxsl_call(*paths[:3])
-		#call_args = get_saxon_call(*paths[:3])
+		call_args, has_output = get_msxsl_call(*paths[:3])
+		#call_args, has_output = get_saxon_call(*paths[:3])
 
 		# Store the call as a string for debugging and printing.
 		call_args_str = ' '.join(call_args)
@@ -168,12 +168,33 @@ def convert_files(args):
 		# Log the XSL command to be run.
 		logger.debug(call_args_str)
 
-		# Call and store the exit status of the XSL command.
-		result = call(call_args)
+
+		if has_output:
+			# check_output will raise CalledProcessError if the call fails.
+			output = check_output(call_args, universal_newlines=True)
+
+			result = 0
+
+		else:
+			# Call and store the exit status of the XSL command.
+			result = call(call_args)
+
+			output = ''
+
 
 		input_file = paths[0]
 		output_file = paths[2]
 		error_file = paths[3]
+
+		if output != '':
+			with open(output_file, 'w') as w:
+				w.write(output)
+
+		# Make sure the new (converted) file was created.
+		if not os.path.exists(output_file):
+			logger.error('Output file was not created at %s.', output_file)
+			continue
+
 
 		# Move file to the error folder if an error code was returned.
 		if result != 0:
