@@ -211,22 +211,25 @@ def convert_files(args):
 			# Skip to the next file after a conversion failure.
 			continue
 
+
 		# Insert random UUIDs into converted files.
 		add_random_uuid_to_file(output_file)
+
 
 		# Insert the parent folder name into the file name.
 		# This returns a new file path that the function creates.
 		new_output_file = append_folder_to_file_name(output_file)
 
-		# Delete the converted file if it already exists.
+		# Delete the target file if it already exists.
 		if os.path.exists(new_output_file):
 			logger.info('Delete existing %s.', new_output_file)
 
 			os.remove(new_output_file)
 
-		logger.info('Created %s.', new_output_file)
-
+		# Rename the output file to use the target name.
 		os.rename(output_file, new_output_file)
+
+		logger.info('Renamed %s to %s.', output_file, new_output_file)
 
 		# Ensure last modified time is older than the output file.
 		os.utime(input_file, None)
