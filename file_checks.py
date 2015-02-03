@@ -69,7 +69,7 @@ def check_paths(*paths):
 	return True
 
 
-def file_is_newer(newer_file, older_file):
+def file_is_newer(older_file, newer_file):
 	"""
 	Return True if the first file is newer than the second.
 
@@ -83,8 +83,20 @@ def file_is_newer(newer_file, older_file):
 		True if the first file is newer than the second.
 	"""
 
-	return os.path.getmtime(newer_file) > os.path.getmtime(newer_file)
-	#return os.path.getctime(newer_file) > os.path.getctime(newer_file)
+	#newer_file_stat = os.stat(newer_file)
+	#older_file_stat = os.stat(older_file)
+	#return older_file_stat.st_mtime < newer_file_stat.st_mtime
+
+	#if 1 == len(args):
+		#return True
+	#last_file_path = args[0]
+	#for file_path in args[1:]:
+		#if os.path.getmtime(file_path) < os.path.getmtime(last_file_path):
+			#return False
+	#return True
+
+	return os.path.getmtime(older_file) < os.path.getmtime(newer_file)
+	#return os.path.getctime(older_file) < os.path.getctime(newer_file)
 
 
 def find_updated_files(force_conversion=False, conversions=None):
@@ -111,6 +123,7 @@ def find_updated_files(force_conversion=False, conversions=None):
 
 	tuple of str
 		Yields a tuple of file paths required for the XSL conversion.
+		In order: input, XSL, output, error.
 	"""
 
 	full_conversion_details = get_full_conversion_details(conversions)
@@ -135,6 +148,10 @@ def find_updated_files(force_conversion=False, conversions=None):
 			# File path that will be output by the conversion.
 			output_file = os.path.join(output_folder, file_name)
 
+			# Insert the parent folder name into the file name.
+			# This returns a new file path that the function creates.
+			output_file = append_folder_to_file_name(output_file)
+
 			# Folder to store any failed conversions.
 			err_file = os.path.join(output_folder + '_error', file_name)
 
@@ -143,14 +160,17 @@ def find_updated_files(force_conversion=False, conversions=None):
 
 			# Do conversion if it is forced.
 			if force_conversion:
+				logger.debug('Forced conversion of %s.', input_file)
 				yield paths
 
 			# Do conversion if it has not been done before.
 			elif not os.path.exists(output_file):
+				logger.debug('Creating new conversion %s.', output_file)
 				yield paths
 
 			# Do conversion if the input file is newer.
-			elif file_is_newer(input_file, output_file):
+			elif file_is_newer(output_file, input_file):
+				logger.debug('Converting newer input %s.', input_file)
 				yield paths
 
 
