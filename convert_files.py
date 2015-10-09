@@ -16,7 +16,7 @@ import os
 from subprocess import call
 from uuid import uuid4
 
-from conversion_calls import get_conversions, get_msxsl_call
+from conversion_calls import get_conversions, get_msxsl_call, get_saxon_call
 from file_checks import append_folder_to_file_name, find_updated_files
 from settings import CONVERSIONS, LOGGING_KWARGS
 
@@ -154,8 +154,8 @@ def convert_files(args):
 	# Loop over each of the files to be converted.
 	for paths in find_updated_files(args.force, conversions):
 		# Get the XSL transform command to be run.
-		call_args, has_output = get_msxsl_call(*paths[:3])
-		#call_args, has_output = get_saxon_call(*paths[:3])
+		#call_args, has_output = get_msxsl_call(*paths[:3])
+		call_args, has_output = get_saxon_call(*paths[:3])
 
 		# Store the call as a string for debugging and printing.
 		call_args_str = ' '.join(call_args)
