@@ -64,7 +64,8 @@ def check_paths(*paths):
 
 	for f in paths:
 		if not os.path.exists(f):
-			return False
+			os.makedirs(f)
+			#return False
 
 	return True
 
