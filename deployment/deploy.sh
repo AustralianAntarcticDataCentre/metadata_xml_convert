@@ -1,12 +1,5 @@
 #!/bin/sh
 
-#export BASE_PATH='/home/docker-data/aadc-metadata/data'
-#export ANDS_XML_FILE_NAME='${BASE_PATH}/AAD_RegistryObjects.xml'
-#export ANDS_XML_FOLDER_PATH='${BASE_PATH}/ands_rif-cs'
-#export INPUT_PATH='${BASE_PATH}/dif'
-#export OUTPUT_PATH='${BASE_PATH}/'
-#export XSL_PATH='/home/docker-data/aadc-metadata-conversion/git/xsl'
-
 build_images () {
 	echo -e '\n----------------------------------------------------------'
 	echo -e 'Building the aadc/metadata-conversion image'
@@ -26,17 +19,17 @@ deploy_application () {
 	docker run \
 		-d \
 		-v /home/docker-data/aadc-metadata-conversion/git:/srv/git \
-		-v /home/docker-data/aadc-metadata/data/dif:/srv/dif \
+		-v /home/docker-data/aadc-metadata/data:/srv/data \
 		-e BASE_PATH=$BASE_PATH \
 		-e ANDS_XML_FILE_NAME=$ANDS_XML_FILE_NAME \
 		-e ANDS_XML_FOLDER_PATH=$ANDS_XML_FOLDER_PATH \
 		-e INPUT_PATH=$INPUT_PATH \
 		-e OUTPUT_PATH=$OUTPUT_PATH \
 		-e XSL_PATH=$XSL_PATH \
+		-w /srv/git \
 		--name aadc-metadata-conversion \
 		--restart=always \
-		aadc/metadata-conversion \
-		cp /srv/git/deployment/settings.py /srv/git/settings.py
+		aadc/metadata-conversion
 }
 
 # Build the Docker image
