@@ -1,2 +1,0 @@
-50 23 * * * python /srv/git/delete_converts.py > /var/log/cron.log
-55 23 * * * python /srv/git/convert_files.py > /var/log/cron.log

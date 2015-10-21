@@ -19,7 +19,7 @@ deploy_application () {
 	docker run \
 		-d \
 		-v /home/docker-data/aadc-metadata-conversion/git:/srv/git \
-		-v /home/docker-data/aadc-metadata/data:/srv/data \
+		-v /mnt/metadata/xml:/srv/data \
 		-e BASE_PATH=$BASE_PATH \
 		-e ANDS_XML_FILE_NAME=$ANDS_XML_FILE_NAME \
 		-e ANDS_XML_FOLDER_PATH=$ANDS_XML_FOLDER_PATH \
@@ -38,7 +38,8 @@ build_images
 echo -e '\n----------------------------------------------------------'
 echo -e 'Creating directory'
 echo -e '----------------------------------------------------------'
-mkdir -p /home/docker-data/aadc-metadata-conversion/git
+mkdir -p /home/docker-data/aadc-metadata-conversion
+mkdir -p /home/docker-data/aadc-metadata-conversion/log
 
 # Call the function to deploy the application
 deploy_application
