@@ -50,8 +50,15 @@ Deletes any converted files that do not have a matching source file.
 If a metadata record is deleted, then this will remove any conversions
 that have been made from it.
 
+## Automation
 
-## Goals
+### Cron job
+	
+	crontab -e
+
+	* 6 * * * source /path/to/repo/deployment/deploy.sh >> /var/log/cron.log 2>&1
+
+## Notes
 
 This script has been built to solve a specific task.
 

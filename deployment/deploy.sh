@@ -1,5 +1,7 @@
 #!/bin/sh
 
+source /home/docker-data/aadc-metadata-conversion/git/deployment/variables.sh
+
 build_images () {
 	echo -e '\n----------------------------------------------------------'
 	echo -e 'Building the aadc/metadata-conversion image'
