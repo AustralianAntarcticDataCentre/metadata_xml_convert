@@ -12,6 +12,8 @@ ENV HTTPS_PROXY http://proxy.aad.gov.au:8080
 RUN echo 'Acquire::http::proxy "http://proxy.aad.gov.au:8080";' >> /etc/apt/apt.conf
 RUN echo 'Acquire::https::proxy "http://proxy.aad.gov.au:8080";' >> /etc/apt/apt.conf
 
-ADD run.sh /srv/git/run.sh
+COPY run.sh /tmp/run.sh
 
-CMD ['python', './run.sh']
+RUN chmod 777 /tmp/run.sh
+
+CMD bash -C '/tmp/run.sh';'bash'

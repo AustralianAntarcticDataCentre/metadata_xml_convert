@@ -30,7 +30,6 @@ deploy_application () {
 		-e XSL_PATH=$XSL_PATH \
 		-w /srv/git \
 		--name aadc-metadata-conversion \
-		--restart=always \
 		aadc/metadata-conversion
 }
 
