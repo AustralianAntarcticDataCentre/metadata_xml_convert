@@ -1,14 +1,5 @@
 #!/bin/sh
 
-source /home/docker-data/aadc-metadata-conversion/git/deployment/variables.sh
-
-build_images () {
-	echo -e '\n----------------------------------------------------------'
-	echo -e 'Building the aadc/metadata-conversion image'
-	echo -e '----------------------------------------------------------'
-	docker build -t aadc/metadata-conversion .
-}
-
 # Function to deploy the metadata conversion container.
 deploy_application () {
 	# Stop and remove the container
@@ -21,20 +12,17 @@ deploy_application () {
 	docker run \
 		-d \
 		-v /home/docker-data/aadc-metadata-conversion/git:/srv/git \
-		-v /mnt/metadata/xml:/srv/data \
-		-e BASE_PATH=$BASE_PATH \
-		-e ANDS_XML_FILE_NAME=$ANDS_XML_FILE_NAME \
-		-e ANDS_XML_FOLDER_PATH=$ANDS_XML_FOLDER_PATH \
-		-e INPUT_PATH=$INPUT_PATH \
-		-e OUTPUT_PATH=$OUTPUT_PATH \
-		-e XSL_PATH=$XSL_PATH \
+		-v /mnt/aadc/database/metadata/xml:/srv/data \
+		-e BASE_PATH='/srv/data' \
+		-e ANDS_XML_FILE_NAME='/srv/data/AAD_RegistryObjects.xml' \
+		-e ANDS_XML_FOLDER_PATH='/srv/data/ands_rif-cs' \
+		-e INPUT_PATH='/srv/data/dif' \
+		-e OUTPUT_PATH='/srv/data/' \
+		-e XSL_PATH='/srv/git/xsl' \
 		-w /srv/git \
 		--name aadc-metadata-conversion \
-		aadc/metadata-conversion
+		java:latest /bin/sh -c "python -u /srv/git/delete_converts.py; python -u /srv/git/convert_files.py;"
 }
-
-# Build the Docker image
-build_images
 
 echo -e '\n----------------------------------------------------------'
 echo -e 'Creating directory'
@@ -47,3 +35,5 @@ deploy_application
 
 # List the Docker containers
 docker ps
+
+

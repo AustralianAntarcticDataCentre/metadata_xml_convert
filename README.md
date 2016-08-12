@@ -56,11 +56,11 @@ that have been made from it.
 	
 	crontab -e
 
-	* 6 * * * source /path/to/repo/deployment/deploy.sh >> /var/log/cron.log 2>&1
+	1 * * * * source /home/docker-data/aadc-metadata-conversion/git/deployment/deploy.sh >> /var/log/cronjobs/aadc-metadata-conversion.log 2>&1
 
 ## Notes
 
-This script has been built to solve a specific task.
+This script has been built to solve a specific task.E
 
 The goal was not to create a tool that would be integrated with others,
 but hopefully this may still be possible in the future (if necessary).
