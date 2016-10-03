@@ -17,4 +17,3 @@ docker run \
 	-w /srv/git \
 	--name aadc-metadata-conversion \
 	java:latest /bin/sh -c "python -u /srv/git/delete_converts.py; python -u /srv/git/convert_files.py;"
-}
